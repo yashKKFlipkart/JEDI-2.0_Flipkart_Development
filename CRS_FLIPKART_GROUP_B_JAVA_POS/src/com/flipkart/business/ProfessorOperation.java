@@ -8,33 +8,37 @@ import com.flipkart.bean.Student;
 @SuppressWarnings("unused")
 public class ProfessorOperation{
 
-	private String name;
-    private String email;
-    private String phoneNo;
+	// private String name;
+    // private String email;
+    // private String phoneNo;
 
-	public String getName() {
-        return name;
-    }
+	// public String getName() {
+    //     return name;
+    // }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    // public void setName(String name) {
+    //     this.name = name;
+    // }
 
-    public String getEmail() {
-        return email;
-    }
+    // public String getEmail() {
+    //     return email;
+    // }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    // public void setEmail(String email) {
+    //     this.email = email;
+    // }
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
+    // public String getPhoneNo() {
+    //     return phoneNo;
+    // }
 
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
+    // public void setPhoneNo(String phoneNo) {
+    //     this.phoneNo = phoneNo;
+    // }
+
+    // public Integer getProfessorID(String username){
+    //     return null;
+    // }
 
     public void recordGrade(Student student, Course course, String grade)  
 	{
@@ -50,7 +54,5 @@ public class ProfessorOperation{
 		
 	}
 
-	public Integer getProfessorID(String username){
-        return null;
-    }
+	
 }
