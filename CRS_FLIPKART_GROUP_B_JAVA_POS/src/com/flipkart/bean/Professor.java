@@ -1,53 +1,62 @@
 package com.flipkart.bean;
 
-public class Professor {
-    private String professorID;
-	private String name;
-	private String email;
+public class Professor extends User {
+	
+    private int professorID;
     private String designation;
+    private String department;
     private String phoneNumber;
+	
+    public Professor(int userID, String name, String role, String password, String joiningYear, String designation, String department, String phoneNumber) {
+		super(userID, name, role, password, joiningYear);
+		this.professorID = userID;
+		this.designation = designation;
+		this.department = department;
+		this.phoneNumber = phoneNumber;
+	}
+    
+    
+    public int getProfessorID() {
+		return professorID;
+	}
 
-    public String getProfessorID() {
-        return professorID;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    public void setProfessorID(String professorID) {
-        this.professorID = professorID;
-    }
+	public void setProfessorID(int professorID) {
+		this.professorID = professorID;
+	}
 
-    //TODO Remaining-->
+	public String getDesignation() {
+		return designation;
+	}
 
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
+<<<<<<< HEAD
     public void signUpForCourse()
     {
         
     }
     // public List<CourseCatalog> viewCourses()
     // {
+=======
+	public String getDepartment() {
+		return department;
+	}
 
-    // }
-    // //Add Course class
-    // public void recordGrade(Student student,Course course,String grade)
-    // {
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 
-    // } 
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+>>>>>>> d08018498c8361c4d94438f63a45bd54825898fc
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+    
     
     //Changed
 }
