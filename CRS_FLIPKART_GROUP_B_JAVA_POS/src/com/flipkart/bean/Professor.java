@@ -35,11 +35,10 @@ public class Professor {
     //TODO Remaining-->
 
 
-    // public void signUpForCourse()
-    // {
-
-    // }
-
+    public void signUpForCourse()
+    {
+        
+    }
     // public List<CourseCatalog> viewCourses()
     // {
 
@@ -50,4 +49,5 @@ public class Professor {
 
     // } 
     
+    //Changed
 }

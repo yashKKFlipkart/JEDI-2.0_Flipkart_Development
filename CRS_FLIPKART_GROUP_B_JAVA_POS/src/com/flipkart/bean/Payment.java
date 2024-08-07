@@ -1,5 +1,5 @@
 package com.flipkart.bean;
 
-public class Course {
+public class Payment {
     
 }
