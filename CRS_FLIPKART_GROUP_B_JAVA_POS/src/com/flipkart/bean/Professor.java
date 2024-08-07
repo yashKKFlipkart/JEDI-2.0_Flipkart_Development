@@ -32,14 +32,6 @@ public class Professor extends User {
 		this.designation = designation;
 	}
 
-<<<<<<< HEAD
-    public void signUpForCourse()
-    {
-        
-    }
-    // public List<CourseCatalog> viewCourses()
-    // {
-=======
 	public String getDepartment() {
 		return department;
 	}
@@ -51,7 +43,6 @@ public class Professor extends User {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
->>>>>>> d08018498c8361c4d94438f63a45bd54825898fc
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
