@@ -3,7 +3,14 @@
  */
 package com.flipkart.client;
 
+import java.util.Date;
 import java.util.Scanner;
+
+import com.flipkart.bean.Admin;
+import com.flipkart.bean.Professor;
+import com.flipkart.bean.SemesterRegistration;
+import com.flipkart.bean.Student;
+import com.flipkart.business.*;
 
 /**
  * 
@@ -35,19 +42,30 @@ public class CustomerClient {
 				String password = in.next();
 //				System.out.println("The Password is: "+password);
 				if(role.equals("S")) {
-					System.out.println("Student Menu!\n");
+					Student stud = new Student(100, username, "Student", password, "2021", "Computer", "9999988888", 2021);
+					StudentOperation sop = new StudentOperation(stud);
+					sop.register();
+//					System.out.println("Student Menu!\n");
 				}
 				else if(role.equals("P")) {
-					System.out.println("Professor Menu!\n");
+					Professor prof = new Professor(101, username, "Professor", password, "2020", "Associate", "Computer", "8888899999");
+					ProfessorOperation po = new ProfessorOperation(prof);
+					po.register();
+//					System.out.println("Professor Menu!\n");
 				}
 				else if(role.equals("A")) {
-					System.out.println("Admin Menu!\n");
+					Admin admin = new Admin(102, username, "Admin", password, "2019");
+					AdminOperation ao = new AdminOperation(admin);
+					ao.AdminMenu();
+//					System.out.println("Admin Menu!\n");
 				}
 				else {
 					System.out.println("Wrong Option Selected!\n");
 				}
 				break;
 			case 2:
+				Date date = new Date();
+				SemesterRegistration sr = new SemesterRegistration(100, 1, date);
 				System.out.println("This is for Student Registration\n");
 				break;
 			case 3:
@@ -60,7 +78,5 @@ public class CustomerClient {
 				System.out.println("Wrong option Selected!\n");
 			}
 		}
-		
 	}
-	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.ReportCard;
@@ -12,6 +13,15 @@ import com.flipkart.bean.Student;
 @SuppressWarnings("unused")
 public class AdminOperation{
 
+	private Admin admin;
+	
+	public AdminOperation(Admin admin) {
+		this.admin = admin;
+	}
+	
+	public void AdminMenu() {
+		System.out.println("Admin Menu!\n");
+	}
 
 	public void enableDisableFeePayment(int semesterId) {
 
