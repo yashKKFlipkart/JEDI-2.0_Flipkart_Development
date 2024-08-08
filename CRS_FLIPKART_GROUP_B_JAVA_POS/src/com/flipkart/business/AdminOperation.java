@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.RegisteredCourses;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
 
@@ -15,6 +16,10 @@ import com.flipkart.bean.Student;
 public class AdminOperation{
 
 	private Admin admin;
+    private List<Professor> professors = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
+    private List<Student> pendingStudents = new ArrayList<>();
+    private HashMap<Integer, Boolean> feePaymentStatus = new HashMap<>();
 	
 	public AdminOperation(Admin admin) {
 		this.admin = admin;
@@ -22,50 +27,79 @@ public class AdminOperation{
 	
 
 	public void enableDisableFeePayment(int semesterId) {
-
+		if (feePaymentStatus.containsKey(semesterId)) {
+            boolean currentStatus = feePaymentStatus.get(semesterId);
+            feePaymentStatus.put(semesterId, !currentStatus);
+        } else {
+            feePaymentStatus.put(semesterId, true);
+        }
+        System.out.println("Fee payment for semester " + semesterId + " is now " + (feePaymentStatus.get(semesterId) ? "enabled" : "disabled"));
 	}
 
 	public void approveStudentRegistration(int studentId,int semesterId) {
-
+		for (Student student : pendingStudents) {
+            if (student.getUserID() == studentId) {
+                pendingStudents.remove(student);
+                System.out.println("Student registration for student ID " + studentId + " has been approved for semester " + semesterId);
+                return;
+            }
+        }
+        System.out.println("Student ID " + studentId + " not found in pending registrations.");
 	}
 
 	public void addProfessor(Professor professor) {
-		System.out.println("Professor Added Successfully!");
-	}
+		professors.add(professor);
+        System.out.println("Professor " + professor.getName() + " added successfully!");	
+        }
 
 	public void removeProfessor(int professorID) {
-		System.out.println(professorID+" removed Sucessfully");
-	}
+		 professors.removeIf(professor -> professor.getUserID() == professorID);
+	     System.out.println("Professor with ID " + professorID + " removed successfully");	
+	     }
 
 	public void removeCourse(int courseID) {
-		System.out.println(courseID+" removed Sucessfully");
-	}
+		courses.removeIf(course -> course.getCourseID() == courseID);
+        System.out.println("Course with ID " + courseID + " removed successfully");	}
 	
 
 	public void addCourse(String courseName, int courseID, int semester) {
-		System.out.println(courseName + " Added Sucessfully");
-	}
+		Course course = new Course(courseID, courseName, courseName, null, semester, semester);
+        courses.add(course);
+        System.out.println("Course " + courseName + " added successfully");	}
 
 	
 	public HashMap<String,ArrayList<Integer> > viewCourseStudentList(String courseID, int semester, Boolean viewAll) {
-		return null;
-
+		HashMap<String, ArrayList<Integer>> courseStudentList = new HashMap<>();
+        courseStudentList.put(courseID, new ArrayList<>()); 
+        System.out.println("Course student list viewed successfully");
+        return courseStudentList;
 	}
 
 	public ReportCard generateReportCard(int studentID) {
-		return null;
-
+		List<RegisteredCourses> registeredCourses = new ArrayList<>(); 
+        float cpi = 8.5f;  
+        ReportCard reportCard = new ReportCard(studentID, 1, cpi, registeredCourses); 
+        System.out.println("Report card generated for student ID " + studentID);
+        return reportCard;
 
 	}
 
 	
 	public List<Student> getPendingStudentAccountsList() {
-		return null;
-
+		System.out.println("Fetching list of pending student accounts");
+        return pendingStudents;
 		
 	}
 
 	public void approveStudentAccount(Integer studentID) {
+		for (Student student : pendingStudents) {
+            if (student.getStudentID() == studentID) {
+                pendingStudents.remove(student);
+                System.out.println("Student account with ID " + studentID + " approved");
+                return;
+            }
+        }
+        System.out.println("Student account with ID " + studentID + " not found in pending list.");
 	}
 	
 	
