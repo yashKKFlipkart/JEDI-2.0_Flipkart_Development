@@ -3,6 +3,7 @@ package com.flipkart.business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
@@ -19,9 +20,6 @@ public class AdminOperation{
 		this.admin = admin;
 	}
 	
-	public void AdminMenu() {
-		System.out.println("Admin Menu!\n");
-	}
 
 	public void enableDisableFeePayment(int semesterId) {
 
@@ -32,20 +30,20 @@ public class AdminOperation{
 	}
 
 	public void addProfessor(Professor professor) {
-
+		System.out.println("Professor Added Successfully!");
 	}
 
 	public void removeProfessor(int professorID) {
-	
+		System.out.println(professorID+" removed Sucessfully");
 	}
 
-	public void removeCourse(String courseID) {
-
+	public void removeCourse(int courseID) {
+		System.out.println(courseID+" removed Sucessfully");
 	}
 	
 
-	public void addCourse(String course_Name, String courseID, int semester) {
-		
+	public void addCourse(String courseName, int courseID, int semester) {
+		System.out.println(courseName + " Added Sucessfully");
 	}
 
 	
@@ -68,5 +66,51 @@ public class AdminOperation{
 	}
 
 	public void approveStudentAccount(Integer studentID) {
+	}
+	
+	
+	public void AdminMenu() {
+		System.out.println("Welcome to Admin Menu!\n");
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter 1 to Add Course");
+		System.out.println("Enter 2 to Remove Course");
+		System.out.println("Enter 3 to Add Professor");
+		System.out.println("Enter 4 to Remove Professor");
+		int optionSelected = in.nextInt();  
+		String dummy = in.nextLine();
+		switch(optionSelected) {
+		
+			case 1:
+				System.out.println("Add Courses Menu");
+				System.out.println("Enter Course Name");
+				String courseName = in.nextLine();
+				System.out.println("Enter Course ID");
+				int courseId = in.nextInt();
+				System.out.println("Enter Semester ID");
+				int semesterID = in.nextInt();
+				this.addCourse(courseName, courseId, semesterID);
+				break;
+			case 2:
+				System.out.println("Remove Courses Menu");
+				System.out.println("Enter Course ID");
+				courseId = in.nextInt();
+				this.removeCourse(courseId);
+				break;
+			case 3:
+				System.out.println("Add Professor Menu");
+				Professor prof = new Professor(501, "Rohit", "Professor", "pass", "2020", "Associate", "Computer", "8888899999");
+				this.addProfessor(prof);
+				break;
+			case 4:
+				System.out.println("Remove Professor Menu");
+				System.out.println("Enter Professor ID");
+				int professorID = in.nextInt();
+				this.removeProfessor(professorID);
+				break;
+			default:
+				System.out.println("Wrong Option Chosen");
+		}
+		
+		
 	}
 }

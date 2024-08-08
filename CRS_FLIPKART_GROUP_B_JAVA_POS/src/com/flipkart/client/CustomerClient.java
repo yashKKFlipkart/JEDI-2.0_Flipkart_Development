@@ -37,21 +37,17 @@ public class CustomerClient {
 				String role = in.next();
 				System.out.print("Enter the Username");
 				String username = in.next();
-//				System.out.println("The Username is: "+username);
 				System.out.print("Enter the Password");
 				String password = in.next();
-//				System.out.println("The Password is: "+password);
 				if(role.equals("S")) {
 					Student stud = new Student(100, username, "Student", password, "2021", "Computer", "9999988888", 2021);
 					StudentOperation sop = new StudentOperation(stud);
-					sop.register();
-//					System.out.println("Student Menu!\n");
+					sop.StudentMenu();
 				}
 				else if(role.equals("P")) {
 					Professor prof = new Professor(101, username, "Professor", password, "2020", "Associate", "Computer", "8888899999");
 					ProfessorOperation po = new ProfessorOperation(prof);
-					po.register();
-//					System.out.println("Professor Menu!\n");
+					po.ProfessorMenu();
 				}
 				else if(role.equals("A")) {
 					Admin admin = new Admin(102, username, "Admin", password, "2019");
@@ -70,6 +66,14 @@ public class CustomerClient {
 				break;
 			case 3:
 				System.out.println("This is for Updating Password\n");
+				System.out.println(" Updating Password Menu");
+				System.out.print("Enter the Username");
+				String username1 = in.next();
+				System.out.print("Enter the Old Password");
+				String oldPassword = in.next();
+				System.out.print("Enter the New Password");
+				String newPassword = in.next();
+				System.out.println("Password Updated Successfully!\n");
 				break;
 			case 4: 
 				System.out.println("System Exit. Thank You!\n");
