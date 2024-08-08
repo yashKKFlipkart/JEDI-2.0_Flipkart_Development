@@ -1,13 +1,13 @@
 package com.flipkart.business;
 
-public class UserOperation {
-	
-	public UserOperation() {
+public class UserOperations {
+
+	public UserOperations() {
 		
 	}
 	boolean loginUser(String userID, String password, String role) {
 		return false;
-	
+		
 	}
 	void updateStudentPassword(String userID, String password) {
 		
@@ -18,7 +18,4 @@ public class UserOperation {
 	void updateProfPassword(String userID, String password) {
 		
 	}
-	
-	
-	
 }

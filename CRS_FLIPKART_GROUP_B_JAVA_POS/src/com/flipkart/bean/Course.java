@@ -1,66 +1,79 @@
 package com.flipkart.bean;
 
 public class Course {
-    
-	private int courseID;
-	private String courseName;
-	private String department;
-	private Professor Professor;
-	private int semesterOffered;
-	private int availableSeats;
+
+	private Integer courseID;
+	private String coursename;
+	private Integer instructorID;
+	private Integer totalSeats;
+	private Integer availableSeats;
+	private boolean isAvailableThisSemester;
 	
-	
-	
-	public Course(int courseID, String courseName, String department, com.flipkart.bean.Professor professor,
-			int semesterOffered, int availableSeats) {
-		
-		this.courseID = courseID;
-		this.courseName = courseName;
-		this.department = department;
-		Professor = professor;
-		this.semesterOffered = semesterOffered;
-		this.availableSeats = availableSeats;
+	public Course() {
+		super();
 	}
 	
-	public int getCourseID() {
+	public Course(Integer courseID, String coursename, Integer instructorID, Integer totalSeats, Integer availableSeats,
+			boolean isOffered) {
+		super();
+		this.courseID = courseID;
+		this.coursename = coursename;
+		this.instructorID = instructorID;
+		this.totalSeats = totalSeats;
+		this.availableSeats = availableSeats;
+		this.isAvailableThisSemester = isOffered;
+	}
+
+	
+
+	public Integer getCourseID() {
 		return courseID;
 	}
-	public void setCourseID(int courseID) {
+	
+	public void setCourseID(Integer courseID) {
 		this.courseID = courseID;
 	}
-	public String getCourseName() {
-		return courseName;
+
+	public String getCoursename() {
+		return coursename;
 	}
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
+
+	public void setCoursename(String coursename) {
+		this.coursename = coursename;
 	}
-	public String getDepartment() {
-		return department;
+
+	public Integer getInstructorID() {
+		return instructorID;
 	}
-	public void setDepartment(String department) {
-		this.department = department;
+
+	public void setInstructorID(Integer instructorID) {
+		this.instructorID = instructorID;
 	}
-	public Professor getProfessor() {
-		return Professor;
+
+	public Integer getTotalSeats() {
+		return totalSeats;
 	}
-	public void setProfessor(Professor professor) {
-		Professor = professor;
+
+	public void setTotalSeats(Integer totalSeats) {
+		this.totalSeats = totalSeats;
 	}
-	public int getSemesterOffered() {
-		return semesterOffered;
-	}
-	public void setSemesterOffered(int semesterOffered) {
-		this.semesterOffered = semesterOffered;
-	}
-	public int getAvailableSeats() {
+
+	public Integer getAvailableSeats() {
 		return availableSeats;
 	}
-	public void setAvailableSeats(int availableSeats) {
+
+	public void setAvailableSeats(Integer availableSeats) {
 		this.availableSeats = availableSeats;
 	}
+
+	public boolean isAvailableThisSemester() {
+		return isAvailableThisSemester;
+	}
+
+	public void setAvailableThisSemester(boolean isOffered) {
+		this.isAvailableThisSemester = isOffered;
+	}
+
 	
-	
-	
-	
-	
+
 }

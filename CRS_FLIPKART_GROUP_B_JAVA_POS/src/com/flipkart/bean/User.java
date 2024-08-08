@@ -1,40 +1,29 @@
-/**
- * 
- */
 package com.flipkart.bean;
 
-/**
- * 
- */
 public class User {
-	
-	private int userID;
+
 	private String name;
 	private String role;
+	private String username;
 	private String password;
-	private String joiningYear;
 	
-	
-	
-	public User(int userID) {
-		this.userID = userID;
+	public User() {
+		
 	}
 	
-	
-	public User(int userID, String name, String role, String password, String joiningYear) {
-		this.userID = userID;
+	public User(String username, String name, String role, String password) {
+		super();
 		this.name = name;
 		this.role = role;
+		this.username = username;
 		this.password = password;
-		this.joiningYear = joiningYear;
 	}
-
-
-	public int getUserID() {
-		return userID;
+	
+	public String getUsername() {
+		return username;
 	}
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 	public String getName() {
 		return name;
@@ -54,12 +43,7 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getJoiningYear() {
-		return joiningYear;
-	}
-	public void setJoiningYear(String joiningYear) {
-		this.joiningYear = joiningYear;
-	}
 	
 	
+
 }

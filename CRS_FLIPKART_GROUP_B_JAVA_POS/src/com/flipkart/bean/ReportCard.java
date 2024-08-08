@@ -1,65 +1,58 @@
 package com.flipkart.bean;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class ReportCard {
-    
-	private int studentID;
-	private int semester;
-	private float cpi;
-	private List<RegisteredCourses> registeredCourses;
-	
-	
-	public ReportCard(int studentID, int semester, float cpi, List<RegisteredCourses> registeredCourses) {
-		
+
+
+	private Integer studentID;
+	private Integer semester;
+	private Float cpi;
+	HashMap<String, String> grades = new HashMap<String, String>();
+
+	public ReportCard() {
+		cpi = (float) 0.0;
+		studentID = 0;
+		semester = 0;
+	}
+
+	public ReportCard(HashMap<String, String> grades, Integer studentID, Integer semester, Float cgpa) {
+		this.grades = grades;
 		this.studentID = studentID;
 		this.semester = semester;
-		this.cpi = cpi;
-		this.registeredCourses = registeredCourses;
+		this.cpi = cgpa;
 	}
-	
-	
-	public int getStudentID() {
+
+	public HashMap<String, String> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(HashMap<String, String> grades) {
+		this.grades = grades;
+	}
+
+	public Integer getStudentID() {
 		return studentID;
 	}
 
-
-	public void setStudentID(int studentID) {
+	public void setStudentID(Integer studentID) {
 		this.studentID = studentID;
 	}
 
-
-	public int getSemester() {
+	public Integer getSemester() {
 		return semester;
 	}
 
-
-	public void setSemester(int semester) {
+	public void setSemester(Integer semester) {
 		this.semester = semester;
 	}
 
-
-	public float getCpi() {
+	public Float getCpi() {
 		return cpi;
 	}
 
-
-	public void setCpi(float cpi) {
-		this.cpi = cpi;
+	public void setCpi(Float cgpa) {
+		this.cpi = cgpa;
 	}
-
-
-	public List<RegisteredCourses> getRegisteredCourses() {
-		return registeredCourses;
-	}
-
-
-	public void setRegisteredCourses(List<RegisteredCourses> registeredCourses) {
-		this.registeredCourses = registeredCourses;
-	}
-	
-	
-	
-	
 	
 }

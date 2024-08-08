@@ -1,70 +1,45 @@
 package com.flipkart.bean;
 
+import java.util.ArrayList;
+
 public class RegisteredCourses {
-    
-	private int courseID;
-	private int semester;
-	private int studentID;
-	private String grade;
+
+	private Integer studentID;
+	private Integer semesterID;
+	private ArrayList<Integer> courseID = new ArrayList<Integer>();
 	
-	public RegisteredCourses(int courseID, int semester, int studentID, String grade) {
-		this.courseID = courseID;
-		this.semester = semester;
+	public RegisteredCourses() {
+		
+	}
+	
+	public RegisteredCourses(Integer studentID, Integer semesterID, ArrayList<Integer> courseID) {
 		this.studentID = studentID;
-		this.grade = grade;
-	}
-	
-	
-	public int getCourseID() {
-		return courseID;
-	}
-
-
-
-	public void setCourseID(int courseID) {
+		this.semesterID = semesterID;
 		this.courseID = courseID;
 	}
 
-
-
-	public int getSemester() {
-		return semester;
-	}
-
-
-
-	public void setSemester(int semester) {
-		this.semester = semester;
-	}
-
-
-
-	public int getStudentID() {
+	public Integer getStudentID() {
 		return studentID;
 	}
 
-
-
-	public void setStudentID(int studentID) {
+	public void setStudentID(Integer studentID) {
 		this.studentID = studentID;
 	}
 
-
-
-	public String getGrade() {
-		return grade;
+	public Integer getSemesterID() {
+		return semesterID;
 	}
 
-
-
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void setSemesterID(Integer semesterID) {
+		this.semesterID = semesterID;
 	}
 
+	public ArrayList<Integer> getCourseID() {
+		return courseID;
+	}
 
-
-	
-	
-	
+	public void setCourseID(ArrayList<Integer> courseID) {
+		this.courseID = courseID;
+	}
 	
 }

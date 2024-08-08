@@ -1,31 +1,29 @@
 package com.flipkart.bean;
 
+import java.util.ArrayList;
+
 public class Student extends User{
+
+	private Integer studentID;
+	private String department;
+	private ArrayList<Integer> courseID = new ArrayList<Integer>();
 	
-	public Student(int studentID) {
-		super(studentID);
+	public Student() {
+		super();
+	}
+	
+	public Student(String username, String name, String role, String password,Integer studentID, String department, ArrayList<Integer> courseID) {
+		super(username,name,role,password);
 		this.studentID = studentID;
+		this.department = department;
+		this.courseID = courseID;
 	}
 
-	public Student(int userID, String name, String role, String password, String joiningYear, String department, String phoneNumber, int batch) {
-		super(userID, name, role, password, joiningYear);
-		// TODO Auto-generated constructor stub
-		this.studentID = userID;
-		this.department = department;
-		this.phoneNumber = phoneNumber;
-		this.batch = batch;
-	}
-	
-	private int studentID;
-	private String department;
-	private String phoneNumber;
-	private int batch;
-	
-	public int getStudentID() {
+	public Integer getStudentID() {
 		return studentID;
 	}
 
-	public void setStudentID(int studentID) {
+	public void setStudentID(Integer studentID) {
 		this.studentID = studentID;
 	}
 
@@ -37,20 +35,13 @@ public class Student extends User{
 		this.department = department;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public ArrayList<Integer> getCourseID() {
+		return courseID;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setCourseID(ArrayList<Integer> courseID) {
+		this.courseID = courseID;
 	}
-
-	public int getBatch() {
-		return batch;
-	}
-
-	public void setBatch(int batch) {
-		this.batch = batch;
-	}
+	
 	
 }

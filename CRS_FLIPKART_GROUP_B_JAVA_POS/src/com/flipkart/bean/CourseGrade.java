@@ -2,29 +2,30 @@ package com.flipkart.bean;
 
 public class CourseGrade {
 	
+	private String grade;
 	private Course course;
-    private String grade;
-	
-    
-    
-    public CourseGrade(Course course, String grade) {
+
+	public CourseGrade() {
 		
-		this.course = course;
+	}
+	
+	public CourseGrade(String grade) {
 		this.grade = grade;
 	}
-    
-	public Course getCourse() {
-		return course;
-	}
-	public void setCourse(Course course) {
+	
+	public CourseGrade(String grade, Course course) {
+		this.grade = grade;
 		this.course = course;
 	}
+
 	public String getGrade() {
 		return grade;
 	}
+
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+
 	
-    
+
 }
