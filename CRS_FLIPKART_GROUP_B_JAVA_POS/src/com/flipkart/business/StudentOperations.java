@@ -12,36 +12,39 @@ import com.flipkart.bean.Student;
 public class StudentOperations implements StudentOperationsInterface {
 	private List<Student> students = new ArrayList<>();
 
-public StudentOperations(){
-	Student s1 = new Student();
-	s1.setDepartment("CS");
-	s1.setName("Rohan");
-	s1.setPassword("password");
-	s1.setRole("Student");
-	s1.setStudentID(201);
-	s1.setUsername("Rohan");
-	students.add(s1);
-	Student s2 = new Student();
-	s2.setDepartment("CS");
-	s2.setName("Mohan");
-	s2.setPassword("password");
-	s2.setRole("Student");
-	s2.setStudentID(202);
-	s2.setUsername("Mohan");
-	students.add(s2);
-	Student s3 = new Student();
-	s3.setDepartment("CS");
-	s3.setName("Sohan");
-	s3.setPassword("password");
-	s3.setRole("Student");
-	s3.setStudentID(203);
-	s3.setUsername("Sohan");
-	students.add(s3);
-}
-
-	public List<Student> getStudents() {
-		return students;
+	public StudentOperations(){
+		Student s1 = new Student();
+		s1.setDepartment("CS");
+		s1.setName("Rohan");
+		s1.setPassword("password");
+		s1.setRole("Student");
+		s1.setStudentID(201);
+		s1.setUsername("Rohan");
+		students.add(s1);
+		Student s2 = new Student();
+		s2.setDepartment("CS");
+		s2.setName("Mohan");
+		s2.setPassword("password");
+		s2.setRole("Student");
+		s2.setStudentID(202);
+		s2.setUsername("Mohan");
+		students.add(s2);
+		Student s3 = new Student();
+		s3.setDepartment("CS");
+		s3.setName("Sohan");
+		s3.setPassword("password");
+		s3.setRole("Student");
+		s3.setStudentID(203);
+		s3.setUsername("Sohan");
+		students.add(s3);
 	}
+
+	public Boolean checkPaymentStatus(int StudentID) {
+		System.out.println("Check Payment Status!");
+		return false;
+	}
+	
+	
 	
 	public boolean addStudent(String username, String name, String role, String password,Integer studentID, String department) {
 		if(findStudentByUsername(username)==null){
@@ -57,6 +60,21 @@ public StudentOperations(){
 		}
         return false;
     }
+	
+	@Override
+	public ReportCard viewReportCard(int StudentID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public void viewRegisteredCourses(int studentID) {
+		Student student = findStudentByStudentId(studentID);
+		System.out.println("Courses regsitered by"+student.getName()+"are: ");
+		List<Course> registeredCourses = student.getregisteredCourses();
+		for(Course course: registeredCourses) {
+			System.out.println(course.getCoursename() +" "+ course.getCourseID());
+		}
+	}
 	
 	public Student findStudentByUsername(String username){
 		for (Student student : students) {
@@ -75,10 +93,12 @@ public StudentOperations(){
 		}
 		return null;
 	}
+	
+	public ArrayList<Course> viewAvailableCourses(){
+		System.out.println("View Available Courses!");
+		return null;
+	}
 
-//	void registerCourses(int studentId, int courseID) {
-//		System.out.println("Register Courses!");
-//	}
 	
 	public boolean addCourse(int studentID, int courseID, String courseName) {
 		// creating a course object
@@ -120,40 +140,23 @@ public StudentOperations(){
 	    return true;
 	}
 	
-//	boolean finishRegistration(int studentId, int semesterId) {
-//		System.out.println("Finish Registration!");
-//		return true;
-//	}
-	
-	public ArrayList<Course> viewAvailableCourses(){
-		System.out.println("View Available Courses!");
-		return null;
-	}
-	public ReportCard viewReportCard(int StudentID, int semesterId) {
-		System.out.println("View Report Card!");
-		return null;
-		
-	}
-	public Boolean checkPaymentStatus(int StudentID) {
-		System.out.println("Check Payment Status!");
+	@Override
+	public boolean finishRegistration(int studentId, int semesterId) {
+		// TODO Auto-generated method stub
 		return false;
 	}
+	
 	public void makePayment(Payment payment) {
 		System.out.println("Make Payment!");
 
 	}
-	public void viewRegisteredCourses(int studentID) {
-		Student student = findStudentByStudentId(studentID);
-		System.out.println("Courses regsitered by"+student.getName()+"are: ");
-		List<Course> registeredCourses = student.getregisteredCourses();
-		for(Course course: registeredCourses) {
-			System.out.println(course.getCoursename() +" "+ course.getCourseID());
-		}
-	}
+	
 
 	public void viewStudents() {
 		for (Student student : students) {
 			System.out.println(student.getName()+" "+student.getDepartment()+" "+student.getStudentID()+" "+student.getUsername());
 		}
 	}
+
+	
 }

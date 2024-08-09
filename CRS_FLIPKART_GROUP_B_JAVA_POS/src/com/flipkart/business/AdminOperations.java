@@ -8,6 +8,7 @@ import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AdminOperations implements AdminOperationsInterface {
@@ -68,13 +69,16 @@ public class AdminOperations implements AdminOperationsInterface {
 	public void addProfessor(Professor professor) {
 		System.out.println("Add Professor!");
 	}
+	
 	public void removeProfessor(int professorID) {
 		System.out.println("Remove Professor!");
 	}
+	
 	public Float calculateCpi(ReportCard rc) {
 		System.out.println("Calculate CPI");
 		return null;
 	}
+	
 	public ReportCard generateReportCard(int studentID) {
 		System.out.println("Generate report Card");
 		return null;
@@ -83,9 +87,19 @@ public class AdminOperations implements AdminOperationsInterface {
 	public void sendFeePayNotification() {
 		System.out.println("Send Fee Payment Notification");
 	}
+	
+	public HashMap<Integer, ArrayList<Student>> viewCourseStudentList(int courseID){
+		return null;
+	}
+	
+	public List<Student> getPendingStudentAccountsList(){
+		return null;
+	}
 
+	@Override
 	public void PaymentCompletionNotification() {
-		System.out.println("Payment Complete Notification");
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -38,11 +38,7 @@ public class CRSApplication {
 			System.out.println("1: Login");
 			System.out.println("2: Student Registration");
 			System.out.println("3: Update Password");
-			System.out.println("4: Add Student");
-			System.out.println("5: Show all students");
-			System.out.println("6: Add Professor");
-			System.out.println("7: Show all professors");
-			System.out.println("8: Exit ");
+			System.out.println("4: Exit ");
 			System.out.println("Make your selection by entering the option number");
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 			int optionSelected =in.nextInt();
@@ -61,37 +57,14 @@ public class CRSApplication {
 					break;
 
 				case 4:
-					addStudent();
-					break;
-					
-				case 5:
-					showAllStudents();
-					break;
-					
-				case 6:
-					addProfessor();
-					break;
-					
-				case 7:
-					showAllProfessors();
-					break;
-					
-				case 8:
-					in.close();
 					System.out.println("Exited Successfully!");
+					in.close();
 					return;
 				default:
 					System.out.println("Invalid input");
 					break;
 			}
 		}
-	}
-
-	private void showAllStudents(){
-		sOps.viewStudents();
-	}
-	private void showAllProfessors(){
-		pOps.viewProfessors();
 	}
 
 
@@ -143,11 +116,11 @@ public class CRSApplication {
 		}
 	}
 	
-	void registerStudent() {
-		System.out.println("In Register Student Menu");
-	}
+//	void registerStudent() {
+//		System.out.println("In Register Student Menu");
+//	}
 	
-	void addStudent() {
+	void registerStudent() {
 		System.out.println("enter username");
 		String username = in.nextLine();
 		System.out.println("enter password");
@@ -165,26 +138,7 @@ public class CRSApplication {
 			System.out.println("student already exists");
 		}
 	}
-	void addProfessor() {
-		System.out.println("enter username");
-		String username = in.nextLine();
-		System.out.println("enter password");
-		String password = in.nextLine();
-		System.out.println("enter name");
-		String name = in.nextLine();
-		System.out.println("enter department");
-		String department = in.nextLine();
-		System.out.println("enter instructorID");
-		int instructorID = in.nextInt();
-		System.out.println("enter designation");
-		String designation = in.nextLine();
-
-		if(pOps.addProfessor(username,name,"professor",password,instructorID,department,designation)){
-			System.out.println("Professor Added Successfully");
-		}else{
-			System.out.println("Professor already exists");
-		}
-	}
+	
 	void updatePassword() {
 		System.out.println("In Update Password Menu");
 		System.out.println("Enter your role: S for Student, P for Professor, A for Admin ");
