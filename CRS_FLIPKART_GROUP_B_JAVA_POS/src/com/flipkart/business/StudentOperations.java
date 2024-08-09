@@ -67,31 +67,39 @@ public StudentOperations(){
 	}
 
 	void registerCourses(int studentId, String courseId) {
+		System.out.println("Register Courses!");
 	}
 	boolean addCourse(int studentId, int semesterId, String courseId, boolean isPrimary) {
+		System.out.println("Add Courses!");
 		return false;
 	}
 	boolean dropCourse(int studentId, int semesterId, String courseId) {
+		System.out.println("Drop Courses!");
 		return false;
 	}
 	boolean finishRegistration(int studentId, int semesterId) {
+		System.out.println("Finish Registration!");
 		return true;
 	}
 	ArrayList<Course> viewAvailableCourses(){
+		System.out.println("View Available Courses!");
 		return null;
 	}
 	ReportCard viewReportCard(int StudentID, int semesterId) {
+		System.out.println("View Report Card!");
 		return null;
 		
 	}
-	Boolean checkPaymentWindow(int StudentID) {
+	Boolean checkPaymentStatus(int StudentID) {
+		System.out.println("Check Payment Status!");
 		return false;
 	}
-	void DoPayment(Payment payment) {
+	void makePayment(Payment payment) {
+		System.out.println("Make Payment!");
 
 	}
 	void viewRegisteredCourses(int studentID, int semesterId) {
-		
+		System.out.println("View Regsitered Courses!");
 	}
 
 	public void viewStudents() {

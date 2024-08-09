@@ -60,13 +60,13 @@ public class ProfessorOperations {
 		return null;
 	}
 	void addGrade(Integer studentID, Integer semesterID,String courseID, String alphaGrade) {
-		
+		System.out.println("Add Grade");
 	}
 	void ViewEnrolledStudents(String courseID, Integer semesterID) {
-		
+		System.out.println("View Enrolled Students");
 	}
 	void CourseSelection(Integer instructorID, Integer semesterID, String courseID) {
-		
+		System.out.println("Course Selection");
 	}
 	public void viewProfessors() {
 		for (Professor professor : professors) {

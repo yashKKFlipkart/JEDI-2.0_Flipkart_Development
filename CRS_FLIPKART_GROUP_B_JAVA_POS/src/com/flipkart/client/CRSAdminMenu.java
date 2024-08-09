@@ -11,7 +11,7 @@ public class CRSAdminMenu {
 			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Admin ~~~~~~~~~~~~~~~~~~~\n");
 			System.out.println("\nChoose an option from the Menu: ");
 			System.out.println("---------------------------------------");
-			System.out.println("1: Approve Student Registeration");
+			System.out.println("1: Approve Student Registration");
 			System.out.println("2: Add Grade");
 			System.out.println("3: Remove Course");
 			System.out.println("4: Add Professor");

@@ -38,33 +38,37 @@ public class AdminOperations {
 	}
 	
 	void approveStudentRegistration(int studentId,int semesterId) {
+		System.out.println("Approve Student Registration!");
 
 	}
 	void addCourse(String course_name, String courseID, int semester){
+		System.out.println("Add Course!");
 		
 	}
 	void removeCourse(String courseID) {
-		
+		System.out.println("Remove Course!");
 	}
 	void addProfessor(Professor professor) {
-		
+		System.out.println("Add Professor!");
 	}
 	void removeProfessor(int professorID) {
-		
+		System.out.println("Remove Professor!");
 	}
-	Float CalculateCgpa(ReportCard gc) {
+	Float calculateCpi(ReportCard rc) {
+		System.out.println("Calculate CPI");
 		return null;
 	}
-	ReportCard generateGradeCard(int studentID) {
+	ReportCard generateReportCard(int studentID) {
+		System.out.println("Generate report Card");
 		return null;
 		
 	}
 	void sendFeePayNotification() {
-		
+		System.out.println("Send Fee Payment Notification");
 	}
 
 	void PaymentCompletionNotification() {
-
+		System.out.println("Payment Complete Notification");
 	}
 	
 }
