@@ -9,6 +9,7 @@ public class SemesterRegistration {
 	private Date registrationDate;
 	private Boolean isApproved;
 	
+	
 	public SemesterRegistration() {
 		
 	}
