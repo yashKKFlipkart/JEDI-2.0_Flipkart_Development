@@ -100,12 +100,16 @@ public class CRSApplication {
 		String username=null;
 		String password=null;
 		String role;
+		int studentID;
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Enter your username: ");
 		username = in.nextLine();
 		System.out.println("Enter your password: ");
 		password = in.nextLine();
+		System.out.println("Enter your ID: ");
+		studentID = in.nextInt();
+		in.nextLine();
 		System.out.println("Choose your Role: ");
 		System.out.println("S for Student");
 		System.out.println("P for Professor");
@@ -116,7 +120,7 @@ public class CRSApplication {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			System.out.println("Student Login Successful");
             CRSStudentMenu stud = new CRSStudentMenu();
-            stud.CreateStudentMenu(username);
+            stud.CreateStudentMenu(studentID);
 			break;
 
 		case "P":

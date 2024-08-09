@@ -2,10 +2,14 @@ package com.flipkart.client;
 
 import java.util.Scanner;
 
+import com.flipkart.business.StudentOperations;
+
 public class CRSStudentMenu {
 
-	public void CreateStudentMenu(String studentID) {
-		Scanner in = new Scanner(System.in);
+	private Scanner in = new Scanner(System.in);
+	private StudentOperations so = new StudentOperations();
+	
+	public void CreateStudentMenu(int studentID) {
 
 		while (true) {
 			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Student ~~~~~~~~~~~~~~~~~~~\n");
@@ -23,6 +27,7 @@ public class CRSStudentMenu {
 			System.out.println("Make your selection by entering the option number");
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 			int optionSelected =in.nextInt();
+			in.nextLine();
 			switch (optionSelected) {
 			case 1:
 				registerCourses(studentID);
@@ -55,42 +60,49 @@ public class CRSStudentMenu {
 		}
 	}
 
-	private void makePayment(String studId) {
+	private void makePayment(int studId) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void checkPaymentStatus(String studId) {
+	private void checkPaymentStatus(int studId) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void viewReportCard(String studId) {
+	private void viewReportCard(int studId) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void viewRegisteredCourses(String studId) {
+	private void viewRegisteredCourses(int studentID) {
+		so.viewRegisteredCourses(studentID);
+	}
+
+	private void finishRegistration(int studId) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void finishRegistration(String studId) {
-		// TODO Auto-generated method stub
-
+	private void dropCourse(int studentID) {
+		System.out.println("Enter Course ID to be removed:");
+		int courseID = in.nextInt();
+		so.dropCourse(studentID, courseID);
 	}
 
-	private void dropCourse(String studId) {
-		// TODO Auto-generated method stub
-
+	private void addCourse(int studentID) {
+		System.out.print("Enter Course Name:");
+		String courseName = in.nextLine();
+		System.out.print("Enter Course ID:");
+		String cID = in.nextLine();
+		int courseID = Integer.valueOf(cID);
+		boolean ans = so.addCourse(studentID, courseID, courseName);
+		if(!ans) {
+			System.out.println("Error in adding Course");
+		}
 	}
 
-	private void addCourse(String studId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void registerCourses(String studId) {
+	private void registerCourses(int studId) {
 	}
 
 }

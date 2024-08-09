@@ -57,6 +57,7 @@ public StudentOperations(){
 		}
         return false;
     }
+	
 	public Student findStudentByUsername(String username){
 		for (Student student : students) {
 			if(student.getUsername().equals(username)){
@@ -65,27 +66,70 @@ public StudentOperations(){
 		}
 		return null;
 	}
+	
+	public Student findStudentByStudentId(int studentID) {
+		for(Student student : students) {
+			if(student.getStudentID().equals(studentID)) {
+				return student;
+			}
+		}
+		return null;
+	}
 
-	void registerCourses(int studentId, String courseId) {
-		System.out.println("Register Courses!");
-	}
-	boolean addCourse(int studentId, int semesterId, String courseId, boolean isPrimary) {
-		System.out.println("Add Courses!");
-		return false;
-	}
-	boolean dropCourse(int studentId, int semesterId, String courseId) {
-		System.out.println("Drop Courses!");
-		return false;
-	}
-	boolean finishRegistration(int studentId, int semesterId) {
-		System.out.println("Finish Registration!");
+//	void registerCourses(int studentId, int courseID) {
+//		System.out.println("Register Courses!");
+//	}
+	
+	public boolean addCourse(int studentID, int courseID, String courseName) {
+		// creating a course object
+		Course course = new Course();
+		course.setCourseID(courseID);
+		course.setCoursename(courseName);
+		course.setAvailableThisSemester(true);
+		
+		Student student = findStudentByStudentId(studentID);
+		student.getregisteredCourses().add(course);
+		System.out.println("Course Added Successfully");
 		return true;
 	}
-	ArrayList<Course> viewAvailableCourses(){
+	
+	public boolean dropCourse(int studentID, int courseID) {
+		Student student = findStudentByStudentId(studentID);
+	    if (student == null) {
+	        System.out.println("Student not found!");
+	        return false;
+	    }
+	    
+	    List<Course> registeredCourses = student.getregisteredCourses();
+	    Course courseToDrop = null;
+	    
+	    for (Course course : registeredCourses) {
+	        if (course.getCourseID().equals(courseID)) {
+	            courseToDrop = course; // Store the reference to the course to drop
+	            break;
+	        }
+	    }
+	    
+	    if (courseToDrop == null) {
+	        System.out.println("Course is not registered by student, so cannot drop it!");
+	        return false;
+	    }
+	    
+	    registeredCourses.remove(courseToDrop);
+	    System.out.println("Course Dropped Successfully");
+	    return true;
+	}
+	
+//	boolean finishRegistration(int studentId, int semesterId) {
+//		System.out.println("Finish Registration!");
+//		return true;
+//	}
+	
+	public ArrayList<Course> viewAvailableCourses(){
 		System.out.println("View Available Courses!");
 		return null;
 	}
-	ReportCard viewReportCard(int StudentID, int semesterId) {
+	public ReportCard viewReportCard(int StudentID, int semesterId) {
 		System.out.println("View Report Card!");
 		return null;
 		
@@ -98,8 +142,13 @@ public StudentOperations(){
 		System.out.println("Make Payment!");
 
 	}
-	void viewRegisteredCourses(int studentID, int semesterId) {
-		System.out.println("View Regsitered Courses!");
+	public void viewRegisteredCourses(int studentID) {
+		Student student = findStudentByStudentId(studentID);
+		System.out.println("Courses regsitered by"+student.getName()+"are: ");
+		List<Course> registeredCourses = student.getregisteredCourses();
+		for(Course course: registeredCourses) {
+			System.out.println(course.getCoursename() +" "+ course.getCourseID());
+		}
 	}
 
 	public void viewStudents() {

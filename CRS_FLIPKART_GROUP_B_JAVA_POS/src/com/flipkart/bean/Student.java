@@ -6,17 +6,17 @@ public class Student extends User{
 
 	private Integer studentID;
 	private String department;
-	private ArrayList<Integer> courseID = new ArrayList<Integer>();
+	private ArrayList<Course> registeredCourses = new ArrayList<Course>();
 	
 	public Student() {
 		super();
 	}
 	
-	public Student(String username, String name, String role, String password,Integer studentID, String department, ArrayList<Integer> courseID) {
+	public Student(String username, String name, String role, String password,Integer studentID, String department, ArrayList<Course> registeredCourses) {
 		super(username,name,role,password);
 		this.studentID = studentID;
 		this.department = department;
-		this.courseID = courseID;
+		this.registeredCourses = registeredCourses;
 	}
 
 	public Integer getStudentID() {
@@ -35,12 +35,12 @@ public class Student extends User{
 		this.department = department;
 	}
 
-	public ArrayList<Integer> getCourseID() {
-		return courseID;
+	public ArrayList<Course> getregisteredCourses() {
+		return registeredCourses;
 	}
 
-	public void setCourseID(ArrayList<Integer> courseID) {
-		this.courseID = courseID;
+	public void setregisteredCourses(ArrayList<Course> registeredCourses) {
+		this.registeredCourses = registeredCourses;
 	}
 	
 	
