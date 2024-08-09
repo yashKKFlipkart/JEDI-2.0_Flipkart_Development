@@ -1,5 +1,5 @@
 package com.flipkart.client;
-
+import com.flipkart.business.*;
 import java.util.Scanner;
 
 import com.flipkart.business.StudentOperations;
@@ -7,7 +7,7 @@ import com.flipkart.business.StudentOperations;
 public class CRSStudentMenu {
 
 	private Scanner in = new Scanner(System.in);
-	private StudentOperations so = new StudentOperations();
+	private StudentOperationsInterface so = new StudentOperations();
 	
 	public void CreateStudentMenu(int studentID) {
 

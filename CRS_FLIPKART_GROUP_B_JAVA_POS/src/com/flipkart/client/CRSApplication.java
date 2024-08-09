@@ -134,7 +134,7 @@ public class CRSApplication {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			System.out.println("Admin Login Successful");
             CRSAdminMenu adm = new CRSAdminMenu();
-            adm.CreateAdminMenu(username);
+            adm.CreateAdminMenu(101);
 			break;
 
 		default:

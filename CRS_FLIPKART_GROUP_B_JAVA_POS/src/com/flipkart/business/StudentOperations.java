@@ -9,7 +9,7 @@ import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Payment;
 import com.flipkart.bean.Student;
 
-public class StudentOperations {
+public class StudentOperations implements StudentOperationsInterface {
 	private List<Student> students = new ArrayList<>();
 
 public StudentOperations(){
@@ -134,11 +134,11 @@ public StudentOperations(){
 		return null;
 		
 	}
-	Boolean checkPaymentStatus(int StudentID) {
+	public Boolean checkPaymentStatus(int StudentID) {
 		System.out.println("Check Payment Status!");
 		return false;
 	}
-	void makePayment(Payment payment) {
+	public void makePayment(Payment payment) {
 		System.out.println("Make Payment!");
 
 	}

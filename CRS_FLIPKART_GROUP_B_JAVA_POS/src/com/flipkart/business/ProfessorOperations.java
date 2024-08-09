@@ -6,7 +6,7 @@ import com.flipkart.bean.Student;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorOperations {
+public class ProfessorOperations implements ProfessorOperationsInterface {
 	
 	private List<Professor> professors = new ArrayList<>();
 	
@@ -59,13 +59,13 @@ public class ProfessorOperations {
 		}
 		return null;
 	}
-	void addGrade(Integer studentID, Integer semesterID,String courseID, String alphaGrade) {
+	public void addGrade(Integer studentID, Integer semesterID,String courseID, String alphaGrade) {
 		System.out.println("Add Grade");
 	}
-	void ViewEnrolledStudents(String courseID, Integer semesterID) {
+	public void ViewEnrolledStudents(String courseID, Integer semesterID) {
 		System.out.println("View Enrolled Students");
 	}
-	void CourseSelection(Integer instructorID, Integer semesterID, String courseID) {
+	public void CourseSelection(Integer instructorID, Integer semesterID, String courseID) {
 		System.out.println("Course Selection");
 	}
 	public void viewProfessors() {

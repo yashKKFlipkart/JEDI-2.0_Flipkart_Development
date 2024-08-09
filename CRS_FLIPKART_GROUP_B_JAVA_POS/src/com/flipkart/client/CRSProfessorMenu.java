@@ -1,8 +1,10 @@
 package com.flipkart.client;
 
+import com.flipkart.business.*;
 import java.util.Scanner;
 
 public class CRSProfessorMenu {
+	private ProfessorOperationsInterface po = new ProfessorOperations();
 
 	public void CreateProfessorMenu(String instructorID) {
 		Scanner in=new Scanner(System.in);

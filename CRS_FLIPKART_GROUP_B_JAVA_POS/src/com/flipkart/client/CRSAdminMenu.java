@@ -1,5 +1,5 @@
 package com.flipkart.client;
-
+import com.flipkart.business.*;
 import java.util.Scanner;
 
 import com.flipkart.business.AdminOperations;
@@ -7,7 +7,7 @@ import com.flipkart.business.AdminOperations;
 public class CRSAdminMenu {
 
 	private Scanner in = new Scanner(System.in);
-	AdminOperations ao = new AdminOperations();
+	AdminOperationsInterface ao = new AdminOperations();
 	
 	public void CreateAdminMenu(int adminID) {
 		

@@ -1,22 +1,22 @@
 package com.flipkart.business;
 
-public class UserOperations {
+public class UserOperations implements UserOperationsInterface {
 
 	public UserOperations() {
 		
 	}
-	boolean loginUser(String userID, String password, String role) {
+	public boolean loginUser(String userID, String password, String role) {
 		System.out.println("Login User!");
 		return false;
 		
 	}
-	void updateStudentPassword(String userID, String password) {
+	public void updateStudentPassword(String userID, String password) {
 		System.out.println("Update Student Password!");
 	}
-	void updateAdminPassword(String userID, String password) {
+	public void updateAdminPassword(String userID, String password) {
 		System.out.println("Update Admin Password!");
 	}
-	void updateProfessorPassword(String userID, String password) {
+	public void updateProfessorPassword(String userID, String password) {
 		System.out.println("Update Professor Password!");
 	}
 }

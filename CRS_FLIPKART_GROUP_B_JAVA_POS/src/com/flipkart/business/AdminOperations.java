@@ -10,7 +10,7 @@ import com.flipkart.bean.Student;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminOperations {
+public class AdminOperations implements AdminOperationsInterface {
 
 	CourseCatalog courseCatalogObject = new CourseCatalog();
 	List<Admin> admins=  new ArrayList<Admin>();
@@ -71,20 +71,20 @@ public class AdminOperations {
 	public void removeProfessor(int professorID) {
 		System.out.println("Remove Professor!");
 	}
-	Float calculateCpi(ReportCard rc) {
+	public Float calculateCpi(ReportCard rc) {
 		System.out.println("Calculate CPI");
 		return null;
 	}
-	ReportCard generateReportCard(int studentID) {
+	public ReportCard generateReportCard(int studentID) {
 		System.out.println("Generate report Card");
 		return null;
 		
 	}
-	void sendFeePayNotification() {
+	public void sendFeePayNotification() {
 		System.out.println("Send Fee Payment Notification");
 	}
 
-	void PaymentCompletionNotification() {
+	public void PaymentCompletionNotification() {
 		System.out.println("Payment Complete Notification");
 	}
 	
