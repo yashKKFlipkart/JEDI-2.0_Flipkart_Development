@@ -18,6 +18,7 @@ public class AdminOperations implements AdminOperationsInterface {
 	
 	public AdminOperations() {
 		Admin ad= new Admin();
+		ad.setAdminID(901);
 		ad.setName("admin");
 		ad.setPassword("password");
 		ad.setUsername("admin");

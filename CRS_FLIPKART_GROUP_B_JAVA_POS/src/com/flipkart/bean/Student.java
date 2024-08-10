@@ -13,7 +13,7 @@ public class Student extends User{
 	}
 	
 	public Student(String username, String name, String role, String password,Integer studentID, String department, ArrayList<Course> registeredCourses) {
-		super(username,name,role,password);
+		super(username,name,role,password, studentID);
 		this.studentID = studentID;
 		this.department = department;
 		this.registeredCourses = registeredCourses;

@@ -6,17 +6,19 @@ public class User {
 	private String role;
 	private String username;
 	private String password;
+	private Integer userID;
 	
 	public User() {
 		
 	}
 	
-	public User(String username, String name, String role, String password) {
+	public User(String username, String name, String role, String password, Integer userID) {
 		super();
 		this.name = name;
 		this.role = role;
 		this.username = username;
 		this.password = password;
+		this.userID = userID;
 	}
 	
 	public String getUsername() {
@@ -43,6 +45,16 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	
+	
 	
 	
 
