@@ -6,20 +6,17 @@ public class ReportCard {
 
 
 	private Integer studentID;
-	private Integer semester;
 	private Float cpi;
 	HashMap<String, String> grades = new HashMap<String, String>();
 
 	public ReportCard() {
 		cpi = (float) 0.0;
 		studentID = 0;
-		semester = 0;
 	}
 
-	public ReportCard(HashMap<String, String> grades, Integer studentID, Integer semester, Float cgpa) {
+	public ReportCard(HashMap<String, String> grades, Integer studentID, Float cgpa) {
 		this.grades = grades;
 		this.studentID = studentID;
-		this.semester = semester;
 		this.cpi = cgpa;
 	}
 
@@ -37,14 +34,6 @@ public class ReportCard {
 
 	public void setStudentID(Integer studentID) {
 		this.studentID = studentID;
-	}
-
-	public Integer getSemester() {
-		return semester;
-	}
-
-	public void setSemester(Integer semester) {
-		this.semester = semester;
 	}
 
 	public Float getCpi() {

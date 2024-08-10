@@ -5,7 +5,6 @@ import java.util.Date;
 public class SemesterRegistration {
 
 	private Integer studentID;
-	private Integer semesterID;
 	private Date registrationDate;
 	private Boolean isApproved;
 	
@@ -14,12 +13,10 @@ public class SemesterRegistration {
 		
 	}
 	
-	public SemesterRegistration(Integer studentID, Date dateOfRegistration, Boolean isApproved,
-			Integer semesterID) {
+	public SemesterRegistration(Integer studentID, Date dateOfRegistration, Boolean isApproved) {
 		this.studentID = studentID;
 		this.registrationDate = dateOfRegistration;
 		this.isApproved = isApproved;
-		this.semesterID = semesterID;
 	}
 	
 	public Integer getStudentID() {
@@ -39,12 +36,6 @@ public class SemesterRegistration {
 	}
 	public void setIsApproved(Boolean isApproved) {
 		this.isApproved = isApproved;
-	}
-	public Integer getSemesterID() {
-		return semesterID;
-	}
-	public void setSemesterID(Integer semesterID) {
-		this.semesterID = semesterID;
 	}
 	
 }
