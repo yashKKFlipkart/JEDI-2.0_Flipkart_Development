@@ -21,13 +21,13 @@ public interface AdminDAOInterface {
 	
 	public void approveStudentRegistration(int studentId,int semesterId);
 	
-	public void addCourse(String courseName, int courseID);
-	
+    public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester);
+    
 	public boolean removeCourse(int courseID) ;
 	
-	public void addProfessor(Professor professor);
+	public void addProfessor(int instructorID, String name, String username, String password, String department, String designation);
 	
-	public void removeProfessor(int professorID);
+	public boolean removeProfessor(int professorID);
 	
 	public Float calculateCpi(ReportCard rc) ;
 	

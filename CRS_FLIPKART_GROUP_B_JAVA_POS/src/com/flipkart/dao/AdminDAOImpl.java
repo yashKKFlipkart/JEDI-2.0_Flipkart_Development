@@ -10,7 +10,6 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
-import java.sql.Timestamp;
 
 public class AdminDAOImpl implements AdminDAOInterface {
 	
@@ -50,8 +49,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
            } catch (SQLException e) {
                e.printStackTrace();
                System.out.println("Error occurred while creating admin: " + e.getMessage());
-           }
-    	
+           } 	
     }
 
     @Override
@@ -82,13 +80,28 @@ public class AdminDAOImpl implements AdminDAOInterface {
     }
 
     @Override
-    public void addCourse(String courseName, int courseID) {
-        String query = "INSERT INTO Course (courseID, courseName) VALUES (?, ?)";
+    public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
+        String query = "INSERT INTO Course (courseID, courseName, instructorID, totalSeats, availableSeats, isAvailableThisSemester) VALUES (?, ?, ?, ?, ?, ?)";
+        
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
+            
             stmt.setInt(1, courseID);
             stmt.setString(2, courseName);
+
+            // Check if instructorID is provided, set it or null
+            if (instructorID != null) {
+                stmt.setInt(3, instructorID); // Set instructorID if provided
+            } else {
+                stmt.setNull(3, java.sql.Types.INTEGER); // Set NULL if not provided
+            }
+
+            stmt.setInt(4, totalSeats); // Set totalSeats
+            stmt.setInt(5, availableSeats); // Set availableSeats
+            stmt.setBoolean(6, isAvailableThisSemester); // Pass boolean directly
+
             stmt.executeUpdate();
+            System.out.println("Course added successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,46 +109,136 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
     @Override
     public boolean removeCourse(int courseID) {
-        String query = "DELETE FROM Course WHERE courseID = ?";
+        // First, check if the course exists
+        String checkQuery = "SELECT COUNT(*) FROM Course WHERE courseID = ?";
+        
         try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setInt(1, courseID);
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+             PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+            
+            checkStmt.setInt(1, courseID);
+            ResultSet rs = checkStmt.executeQuery();
+            
+            // Check if the course exists
+            if (rs.next() && rs.getInt(1) == 0) {
+                System.out.println("Course with ID " + courseID + " does not exist.");
+                return false; // Course does not exist
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return false; // Return false if an error occurs
+        }
+
+        // If course exists, proceed to delete
+        String deleteQuery = "DELETE FROM Course WHERE courseID = ?";
+        
+        try (Connection con = getConnection();
+             PreparedStatement deleteStmt = con.prepareStatement(deleteQuery)) {
+            
+            deleteStmt.setInt(1, courseID);
+            int rowsAffected = deleteStmt.executeUpdate();
+            
+            // Check if any rows were affected by the delete operation
+            return rowsAffected > 0; // Returns true if the course was deleted
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
         }
     }
 
+
     @Override
-    public void addProfessor(Professor professor) {
-        String query = "INSERT INTO Professor (instructorID, name, username, password, department, designation) VALUES (?, ?, ?, ?, ?, ?)";
+    public void addProfessor(int instructorID, String name, String username, String password, String department, String designation) {
+        String userQuery = "INSERT INTO User (userID, name, role, username, password) VALUES (?, ?, ?, ?, ?)";
+        String professorQuery = "INSERT INTO Professor (instructorID, department, designation) VALUES (?, ?, ?)";
+        
         try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setInt(1, professor.getInstructorID());
-            stmt.setString(2, professor.getName());
-            stmt.setString(3, professor.getUsername());
-            stmt.setString(4, professor.getPassword());
-            stmt.setString(5, professor.getDepartment());
-            stmt.setString(6, professor.getDesignation());
-            stmt.executeUpdate();
+             PreparedStatement userStmt = con.prepareStatement(userQuery);
+             PreparedStatement professorStmt = con.prepareStatement(professorQuery)) {
+            
+            // Insert into User table
+            userStmt.setInt(1, instructorID); // Using instructorID as userID
+            userStmt.setString(2, name);
+            userStmt.setString(3, "professor"); // Role is set as "professor"
+            userStmt.setString(4, username);
+            userStmt.setString(5, password);
+            
+            int userRowsAffected = userStmt.executeUpdate();
+            
+            // Check if user was added successfully
+            if (userRowsAffected > 0) {
+                // Insert into Professor table
+                professorStmt.setInt(1, instructorID);
+                professorStmt.setString(2, department);
+                professorStmt.setString(3, designation);
+                professorStmt.executeUpdate();
+                System.out.println("Professor added successfully.");
+            } else {
+                System.out.println("Failed to add user for professor.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
     @Override
-    public void removeProfessor(int professorID) {
-        String query = "DELETE FROM Professor WHERE instructorID = ?";
+    public boolean removeProfessor(int professorID) {
+        // First, check if the professor exists
+        String checkQuery = "SELECT COUNT(*) FROM Professor WHERE instructorID = ?";
+        
         try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setInt(1, professorID);
-            stmt.executeUpdate();
+             PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+            
+            checkStmt.setInt(1, professorID);
+            ResultSet rs = checkStmt.executeQuery();
+            
+            // Check if the professor exists
+            if (rs.next() && rs.getInt(1) == 0) {
+                System.out.println("Professor with ID " + professorID + " does not exist.");
+                return false; // Professor does not exist
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false; // Return false if an error occurs
+        }
+
+        // Set instructorID to NULL in Course table for courses taught by the professor
+        String updateCourseQuery = "UPDATE Course SET instructorID = NULL WHERE instructorID = ?";
+        
+        try (Connection con = getConnection();
+             PreparedStatement updateCourseStmt = con.prepareStatement(updateCourseQuery)) {
+            
+            updateCourseStmt.setInt(1, professorID);
+            updateCourseStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
+        }
+
+        // If professor exists, proceed to delete from Professor and User tables
+        String deleteProfessorQuery = "DELETE FROM Professor WHERE instructorID = ?";
+        String deleteUserQuery = "DELETE FROM User WHERE userID = ?";
+        
+        try (Connection con = getConnection();
+             PreparedStatement deleteProfessorStmt = con.prepareStatement(deleteProfessorQuery);
+             PreparedStatement deleteUserStmt = con.prepareStatement(deleteUserQuery)) {
+            
+            // Delete from Professor table
+            deleteProfessorStmt.setInt(1, professorID);
+            deleteProfessorStmt.executeUpdate();
+            
+            // Delete from User table
+            deleteUserStmt.setInt(1, professorID); // Assuming instructorID is the same as userID
+            deleteUserStmt.executeUpdate();
+            
+            System.out.println("Professor and associated user record removed successfully.");
+            return true; // Return true after successful deletion
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
         }
     }
+
 
     @Override
     public Float calculateCpi(ReportCard rc) {
