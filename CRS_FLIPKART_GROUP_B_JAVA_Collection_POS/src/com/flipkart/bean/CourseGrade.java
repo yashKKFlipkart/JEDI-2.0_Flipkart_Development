@@ -4,6 +4,7 @@ public class CourseGrade {
 	
 	private String grade;
 	private Course course;
+	//Check
 
 	public CourseGrade() {
 		
