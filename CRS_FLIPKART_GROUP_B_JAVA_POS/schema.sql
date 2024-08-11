@@ -1,63 +1,104 @@
-CREATE DATABASE demo_flipfit;
+DROP DATABASE crs; 
 
-USE demo_flipfit;
+CREATE DATABASE crs;
+
+USE crs;
+
+CREATE TABLE User(
+	userID INT PRIMARY KEY,
+	name VARCHAR(45),
+	role VARCHAR(10) NOT NULL,
+	username VARCHAR(20) NOT NULL,
+	password VARCHAR(20) NOT NULL
+);
 
 -- Admin table
 CREATE TABLE Admin (
-    adminID INT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    adminID INT,
+    doj DATETIME,
+    PRIMARY KEY (adminID),
+    FOREIGN KEY (adminID) REFERENCES User(userID) ON DELETE CASCADE
 );
+
 
 -- Professor table
 CREATE TABLE Professor (
-    instructorID INT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    department VARCHAR(255),
-    designation VARCHAR(255)
+    instructorID INT,
+    department VARCHAR(45),
+    designation VARCHAR(45),
+    PRIMARY KEY (instructorID),
+    FOREIGN KEY (instructorID) REFERENCES User(userID) ON DELETE CASCADE
 );
 
--- Student table
-CREATE TABLE Student (
-    studentID INT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    role VARCHAR(50),
-    password VARCHAR(255) NOT NULL,
-    department VARCHAR(255)
-);
 
 -- Course table
 CREATE TABLE Course (
     courseID INT PRIMARY KEY,
-    courseName VARCHAR(255) NOT NULL
+    courseName VARCHAR(45) NOT NULL,
+    instructorID INT NOT NULL,
+    totalSeats INT,
+    availableSeats INT,
+    isAvailableThisSemester TINYINT,
+    FOREIGN KEY (instructorID) REFERENCES Professor(instructorID) ON DELETE CASCADE
+    
 );
 
--- Enrollment table to track which students are enrolled in which courses
-CREATE TABLE Student_Course (
-    studentID INT,
-    courseID INT,
-    PRIMARY KEY (studentID, courseID),
-    FOREIGN KEY (studentID) REFERENCES Student(studentID),
-    FOREIGN KEY (courseID) REFERENCES Course(courseID)
+CREATE TABLE Student(
+	studentID INT,
+    department VARCHAR(45),
+    PRIMARY KEY (studentID),
+    FOREIGN KEY (studentID) REFERENCES User(userID) ON DELETE CASCADE
 );
+
+CREATE TABLE CourseGrade (
+	studentID INT,
+	courseID INT NOT NULL,
+	grade VARCHAR(2) NOT NULL,
+	PRIMARY KEY (studentID, courseID),
+    FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE,
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+) ;
 
 -- Payment table
 CREATE TABLE Payment (
-    paymentID INT AUTO_INCREMENT PRIMARY KEY,
-    studentID INT,
-    amount FLOAT NOT NULL,
-    paymentDate DATE NOT NULL,
-    FOREIGN KEY (studentID) REFERENCES Student(studentID)
+    paymentID INT PRIMARY KEY,
+    studentID INT NOT NULL,
+    amount FLOAT,
+    payment_status TINYINT,
+    FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE
+);
+
+CREATE TABLE PaymentNotification (
+	notificationID INT PRIMARY KEY,
+	paymentID INT NOT NULL,
+	studentID INT NOT NULL,
+	notification_message VARCHAR(45),
+	FOREIGN KEY (paymentID) REFERENCES Payment(paymentID) ON DELETE CASCADE,
+    FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE RegisteredCourses (
+    studentID INT NOT NULL,
+    courseID INT NOT NULL,
+    PRIMARY KEY (studentID, courseID),
+    FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE,
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
 );
 
 -- ReportCard table
 CREATE TABLE ReportCard (
-    reportCardID INT AUTO_INCREMENT PRIMARY KEY,
-    studentID INT,
-    semesterID INT,
-    GPA FLOAT,
-    FOREIGN KEY (studentID) REFERENCES Student(studentID)
+	studentID INT PRIMARY KEY,
+	cpi FLOAT,
+	FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE
 );
+
+CREATE TABLE SemesterRegistration(
+	studentID INT PRIMARY KEY,
+	registration_date DATETIME,
+	is_approved TINYINT,
+	FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE
+);
+
+
