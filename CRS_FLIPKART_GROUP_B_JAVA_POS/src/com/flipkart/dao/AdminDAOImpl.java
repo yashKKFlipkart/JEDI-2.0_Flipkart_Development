@@ -75,9 +75,25 @@ public class AdminDAOImpl implements AdminDAOInterface {
     }
 
     @Override
-    public void approveStudentRegistration(int studentId, int semesterId) {
-        // Implementation for approving student registration
+    public void approveStudentRegistration(int studentId) {
+        String query = "UPDATE SemesterRegistration SET is_approved = 1 WHERE studentID = ?";
+        
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            
+            stmt.setInt(1, studentId);
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("Student registration approved successfully for student ID: " + studentId);
+            } else {
+                System.out.println("No registration found for student ID: " + studentId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
@@ -241,36 +257,268 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
 
     @Override
-    public Float calculateCpi(ReportCard rc) {
-        // Implementation for calculating CPI
-        return null;
+    public Float calculateCpi(int studentId) {
+        String query = "SELECT grade FROM CourseGrade WHERE studentID = ?";
+        float totalGradePoints = 0;
+        int totalCourses = 0;
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            
+            stmt.setInt(1, studentId);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                String grade = rs.getString("grade");
+                totalGradePoints += convertGradeToPoints(grade); // Convert the grade to grade points
+                totalCourses++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null; // Return null in case of an error
+        }
+
+        // Calculate and return CPI
+        if (totalCourses > 0) {
+            return totalGradePoints / totalCourses; // Average of grade points
+        } else {
+            return null; // Return null if no courses found
+        }
     }
+
+    // Helper method to convert letter grades to grade points
+    private float convertGradeToPoints(String grade) {
+        switch (grade.toUpperCase()) {
+            case "A":
+                return 4.0f;
+            case "B":
+                return 3.0f;
+            case "C":
+                return 2.0f;
+            case "D":
+                return 1.0f;
+            case "F":
+                return 0.0f;
+            default:
+                return 0.0f; // Default case for unrecognized grades
+        }
+    }
+
 
     @Override
     public ReportCard generateReportCard(int studentID) {
-        // Implementation for generating report card
-        return null;
+        HashMap<String, String> grades = new HashMap<>();
+
+        String query = "SELECT courseID, grade FROM CourseGrade WHERE studentID = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+             
+            // Set the studentID parameter in the query
+            stmt.setInt(1, studentID);
+            ResultSet rs = stmt.executeQuery();
+            
+            // Loop through the result set to get grades
+            while (rs.next()) {
+                String courseID = rs.getString("courseID");
+                String grade = rs.getString("grade");
+                
+                grades.put(courseID, grade); // Add course ID and grade to the map
+            }
+            
+            // Get the CPI using the existing calculateCpi method
+            Float cpi = calculateCpi(studentID);
+
+            // Create and return the ReportCard object
+            ReportCard reportCard = new ReportCard(grades, studentID, cpi);
+            return reportCard;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null; // Return null in case of an error
+        }
     }
+
 
     @Override
     public void sendFeePayNotification() {
-        // Implementation for sending fee payment notification
+        String paymentQuery = "SELECT p.paymentID, p.studentID, p.amount, u.name " +
+                              "FROM Payment p JOIN User u ON p.studentID = u.userID " +
+                              "WHERE p.payment_status = 0"; // Assuming 0 means payment status incomplete
+
+        String notificationQuery = "INSERT INTO PaymentNotification (paymentID, studentID, notification_message) VALUES (?, ?, ?)";
+
+        try (Connection con = getConnection();
+             PreparedStatement paymentStmt = con.prepareStatement(paymentQuery);
+             PreparedStatement notificationStmt = con.prepareStatement(notificationQuery)) {
+            
+            ResultSet rs = paymentStmt.executeQuery();
+            
+            while (rs.next()) {
+                int paymentID = rs.getInt("paymentID");
+                int studentID = rs.getInt("studentID");
+                float amount = rs.getFloat("amount");
+                String studentName = rs.getString("name");
+
+                // Constructing the notification message
+                String notificationMessage = "Dear " + studentName + ", your payment of $" + amount + " is pending! Please complete payment.";
+
+                // Insert the notification into the PaymentNotification table
+                notificationStmt.setInt(1, paymentID);
+                notificationStmt.setInt(2, studentID);
+                notificationStmt.setString(3, notificationMessage);
+                notificationStmt.executeUpdate();
+
+                System.out.println("Notification sent for payment ID: " + paymentID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+
     @Override
-    public void PaymentCompletionNotification() {
-        // Implementation for payment completion notification
+    public void PaymentCompletionNotification(int studentID) {
+        // Query to retrieve the most recent successful payment for the given student
+        String paymentQuery = "SELECT p.paymentID, p.amount, u.name " +
+                              "FROM Payment p JOIN User u ON p.studentID = u.userID " +
+                              "WHERE p.studentID = ? AND p.payment_status = 1"; // Assuming 1 means payment successful
+
+        String notificationQuery = "INSERT INTO PaymentNotification (paymentID, studentID, notification_message) VALUES (?, ?, ?)";
+
+        try (Connection con = getConnection();
+             PreparedStatement paymentStmt = con.prepareStatement(paymentQuery);
+             PreparedStatement notificationStmt = con.prepareStatement(notificationQuery)) {
+            
+            // Set the studentID parameter in the payment query
+            paymentStmt.setInt(1, studentID);
+            ResultSet rs = paymentStmt.executeQuery();
+            
+            if (rs.next()) {
+                int paymentID = rs.getInt("paymentID");
+                float amount = rs.getFloat("amount");
+                String studentName = rs.getString("name");
+
+                // Constructing the notification message
+                String notificationMessage = "Dear " + studentName + ", your payment of $" + amount + " has been processed successfully.";
+
+                // Insert the notification into the PaymentNotification table
+                notificationStmt.setInt(1, paymentID);
+                notificationStmt.setInt(2, studentID);
+                notificationStmt.setString(3, notificationMessage);
+                notificationStmt.executeUpdate();
+
+                System.out.println("Payment completion notification sent for payment ID: " + paymentID);
+            } else {
+                System.out.println("No successful payment found for student ID: " + studentID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     @Override
     public HashMap<Integer, ArrayList<Student>> viewCourseStudentList(int courseID) {
-        // Implementation for viewing course student list
-        return null;
+        HashMap<Integer, ArrayList<Student>> courseStudentMap = new HashMap<>();
+        ArrayList<Student> studentList = new ArrayList<>();
+
+        String query = "SELECT s.studentID, s.department, u.name " +
+                       "FROM RegisteredCourses rc " +
+                       "JOIN Student s ON rc.studentID = s.studentID " +
+                       "JOIN User u ON s.studentID = u.userID " +
+                       "WHERE rc.courseID = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+             
+            // Set the courseID parameter in the query
+            stmt.setInt(1, courseID);
+            ResultSet rs = stmt.executeQuery();
+            
+            // Populate the studentList with results
+            while (rs.next()) {
+                int studentID = rs.getInt("studentID");
+                
+                // Get student object from studentID
+                Student student = getStudentFromId(studentID);
+                
+                studentList.add(student);
+            }
+            
+            // Put the courseID and its corresponding student list into the map
+            courseStudentMap.put(courseID, studentList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return courseStudentMap;
     }
 
-    @Override
-    public List<Student> getPendingStudentAccountsList() {
-        // Implementation for getting pending student accounts list
-        return null;
+    private Student getStudentFromId(int studentID) {
+        String query = "SELECT s.studentID, s.department, u.name, u.role, u.username, u.password " +
+                       "FROM Student s JOIN User u ON s.studentID = u.userID " +
+                       "WHERE s.studentID = ?";
+        Student student = null;
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            
+            // Set the studentID parameter in the query
+            stmt.setInt(1, studentID);
+            ResultSet rs = stmt.executeQuery();
+            
+            // Check if a student record is found
+            if (rs.next()) {
+                String department = rs.getString("department");
+                String studentName = rs.getString("name");
+                String role = rs.getString("role");
+                String username = rs.getString("username");
+                String password = rs.getString("password"); // Get password if needed
+                
+                // Create a new Student object using the new constructor
+                student = new Student();
+                student.setUsername(username);
+                student.setName(studentName);
+                student.setRole(role);
+                student.setPassword(password);
+                student.setStudentID(studentID);
+                student.setDepartment(department);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return student; // Returns null if no student is found
+    }
+
+    
+	@Override
+	public List<Student> getPendingStudentAccountsList() {
+        List<Student> pendingStudents = new ArrayList<>();
+        String query = "SELECT s.studentID " +
+                       "FROM Student s JOIN SemesterRegistration sr ON s.studentID = sr.studentID " +
+                       "WHERE sr.is_approved = 0"; // Assuming 0 means not approved
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+             
+            ResultSet rs = stmt.executeQuery();
+            
+            // Loop through the result set and get student details
+            while (rs.next()) {
+                int studentID = rs.getInt("studentID");
+                Student student = getStudentFromId(studentID);
+                
+                // Add the student object to the pendingStudents list
+                if (student != null) {
+                    pendingStudents.add(student);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return pendingStudents; // Returns list of pending students
     }
 }

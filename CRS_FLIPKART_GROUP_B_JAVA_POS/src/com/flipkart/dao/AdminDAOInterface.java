@@ -19,7 +19,7 @@ public interface AdminDAOInterface {
 	
 	public Integer findAdminByUsername(String username);
 	
-	public void approveStudentRegistration(int studentId,int semesterId);
+	public void approveStudentRegistration(int studentId);
 	
     public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester);
     
@@ -29,13 +29,13 @@ public interface AdminDAOInterface {
 	
 	public boolean removeProfessor(int professorID);
 	
-	public Float calculateCpi(ReportCard rc) ;
+	public Float calculateCpi(int studentId) ;
 	
 	public ReportCard generateReportCard(int studentID);
 	
 	public void sendFeePayNotification() ;
 	
-	public void PaymentCompletionNotification() ;
+	public void PaymentCompletionNotification(int studentID) ;
 	
 	public HashMap<Integer, ArrayList<Student>> viewCourseStudentList(int courseID);
 	

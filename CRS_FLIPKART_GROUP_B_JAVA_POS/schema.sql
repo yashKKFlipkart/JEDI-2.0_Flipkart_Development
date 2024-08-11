@@ -69,10 +69,10 @@ CREATE TABLE Payment (
 );
 
 CREATE TABLE PaymentNotification (
-	notificationID INT PRIMARY KEY,
+	notificationID INT AUTO_INCREMENT PRIMARY KEY,
 	paymentID INT NOT NULL,
 	studentID INT NOT NULL,
-	notification_message VARCHAR(45),
+	notification_message VARCHAR(255),
 	FOREIGN KEY (paymentID) REFERENCES Payment(paymentID) ON DELETE CASCADE,
     FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE
 );
