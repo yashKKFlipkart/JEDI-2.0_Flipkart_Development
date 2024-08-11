@@ -1,5 +1,6 @@
 package com.flipkart.dao;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +10,14 @@ import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
 
 public interface AdminDAOInterface {
-
-	public void createAdmins();
 	
-	public String findAdminByUsername(String username);
+	private Connection getConnection() {
+		return null;
+	}
+
+	public void createAdmins(int userID, String name, String role, String username, String password, String doj);
+	
+	public Integer findAdminByUsername(String username);
 	
 	public void approveStudentRegistration(int studentId,int semesterId);
 	

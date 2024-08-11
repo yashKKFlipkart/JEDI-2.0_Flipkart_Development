@@ -10,32 +10,70 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
+import java.sql.Timestamp;
 
 public class AdminDAOImpl implements AdminDAOInterface {
+	
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/demo_flipfit", "root", "sanjeev-flipkart");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root");
     }
 
     @Override
-    public void createAdmins() {
-        // Implementation for creating admin records
+    public void createAdmins(int userID, String name, String role, String username, String password, String doj) {
+        // Implementation for creating Admin records
+    	String insertUserSQL = "INSERT INTO User (userID, name, role, username, password) VALUES (?, ?, ?, ?, ?)";
+        String insertAdminSQL = "INSERT INTO Admin (adminID, doj) VALUES (?, ?)";
+        
+        try (Connection connection = getConnection();
+                PreparedStatement userStatement = connection.prepareStatement(insertUserSQL);
+                PreparedStatement adminStatement = connection.prepareStatement(insertAdminSQL)) {
+
+               // Insert into User table
+               userStatement.setInt(1, userID);
+               userStatement.setString(2, name);
+               userStatement.setString(3, role);
+               userStatement.setString(4, username);
+               userStatement.setString(5, password);
+               userStatement.executeUpdate();
+
+               // Insert into Admin table
+               adminStatement.setInt(1, userID); // Use userID as adminID
+               adminStatement.setTimestamp(2, Timestamp.valueOf(doj)); // Convert String to Timestamp
+               int rowsAffected = adminStatement.executeUpdate();
+
+               if (rowsAffected > 0) {
+                   System.out.println("Admin created successfully.");
+               } else {
+                   System.out.println("Admin creation failed.");
+               }
+
+           } catch (SQLException e) {
+               e.printStackTrace();
+               System.out.println("Error occurred while creating admin: " + e.getMessage());
+           }
+    	
     }
 
     @Override
-    public String findAdminByUsername(String username) {
-        String password = null;
-        String query = "SELECT password FROM Admin WHERE username = ?";
+    public Integer findAdminByUsername(String username) {
+        Integer adminID = null;
+        String query = "SELECT a.adminID FROM User u " +
+                       "JOIN Admin a ON u.userID = a.adminID " +
+                       "WHERE u.username = ?";
+
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
+            
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
-                password = rs.getString("password");
+                adminID = rs.getInt("adminID");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return password;
+        return adminID;
     }
 
     @Override

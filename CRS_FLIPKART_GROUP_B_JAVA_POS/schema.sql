@@ -35,7 +35,7 @@ CREATE TABLE Professor (
 CREATE TABLE Course (
     courseID INT PRIMARY KEY,
     courseName VARCHAR(45) NOT NULL,
-    instructorID INT NOT NULL,
+    instructorID INT,
     totalSeats INT,
     availableSeats INT,
     isAvailableThisSemester TINYINT,
