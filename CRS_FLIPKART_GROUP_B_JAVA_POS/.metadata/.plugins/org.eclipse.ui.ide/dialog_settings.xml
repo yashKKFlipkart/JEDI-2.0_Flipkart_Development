@@ -38,6 +38,8 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/Users/garvit.singhal/Desktop/Github-garvit-flipkart/JEDI-2.0_Flipkart_Development"/>
+			<item value="/Users/garvit.singhal/Desktop/Github-garvit-flipkart/JEDI-2.0_Flipkart_Development/CRS_FLIPKART_GROUP_B_JAVA_POS"/>
 			<item value="/Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development"/>
 		</list>
 		<section name="SmartImportWizard.dialogBounds">
