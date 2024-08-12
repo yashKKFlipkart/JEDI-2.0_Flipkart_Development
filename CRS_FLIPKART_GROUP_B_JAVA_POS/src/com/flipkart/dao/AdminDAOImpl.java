@@ -54,6 +54,39 @@ public class AdminDAOImpl implements AdminDAOInterface {
     }
 
     @Override
+    public Admin findAdminById(Integer adminID) {
+        Admin admin = null;
+        String query = "SELECT u.userID, u.name, u.role, u.username, u.password, a.doj " +
+                       "FROM User u " +
+                       "JOIN Admin a ON u.userID = a.adminID " +
+                       "WHERE a.adminID = ?";
+
+        try (Connection con = DButils.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            
+            stmt.setInt(1, adminID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Construct the Admin object using the constructor provided
+                admin = new Admin(
+                    rs.getString("username"),    // username
+                    rs.getString("name"),        // name
+                    rs.getString("role"),        // role
+                    rs.getString("password"),    // password
+                    rs.getString("doj"),         // doj as a string
+                    rs.getInt("adminID")         // adminID
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return admin;
+    }
+
+
+    
+    @Override
     public Integer findAdminByUsername(String username) {
         Integer adminID = null;
         String query = "SELECT a.adminID FROM User u " +

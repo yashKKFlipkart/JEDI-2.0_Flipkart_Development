@@ -1,10 +1,12 @@
 package com.flipkart.client;
+import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Student;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,6 +24,8 @@ public class CRSAdminMenu {
 		
 		while (true) {
 			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Admin ~~~~~~~~~~~~~~~~~~~\n");
+			Date currentDate=new Date();
+			System.out.println("\t\t"+currentDate);
 			System.out.println("\nChoose an option from the Menu: ");
 			System.out.println("---------------------------------------");
 			System.out.println("1: Approve Student Registration");

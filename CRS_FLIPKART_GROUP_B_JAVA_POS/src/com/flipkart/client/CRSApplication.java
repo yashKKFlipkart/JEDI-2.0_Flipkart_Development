@@ -12,7 +12,9 @@ import com.flipkart.business.AdminOperations;
 import com.flipkart.business.ProfessorOperations;
 import com.flipkart.business.StudentOperations;
 
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -37,7 +39,9 @@ public class CRSApplication {
 	private void createMenu() {
 
 		while (true) {
-			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome to CRS Menu ~~~~~~~~~~~~~~~~~~~\n");
+			System.out.print("\n~~~~~~~~~~~~~~~~~~~ Welcome to CRS Menu ~~~~~~~~~~~~~~~~~~~\n");
+			Date currentDate=new Date();
+			System.out.println("\t\t"+currentDate);
 			System.out.println("\nChoose an option from the menu: ");
 			System.out.println("---------------------------------------");
 			System.out.println("1: Login");

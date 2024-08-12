@@ -16,6 +16,8 @@ public interface ProfessorDAOInterface {
 	public void registerCourse(int instructorID, String courseName, Integer courseID);
 	
 	public Professor findProfessorByUsername(String username);
+	
+	public Professor findProfessorById(Integer instructorID);
 
 	public void viewProfessors();
 	

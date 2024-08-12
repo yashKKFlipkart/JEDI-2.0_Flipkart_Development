@@ -1,10 +1,12 @@
 package com.flipkart.client;
 
 import com.flipkart.bean.Course;
+import com.flipkart.bean.Professor;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class CRSProfessorMenu {
@@ -16,8 +18,10 @@ public class CRSProfessorMenu {
 	public void CreateProfessorMenu(Integer instructorID) {
 		
 		while(true){
-			
-			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Professor ~~~~~~~~~~~~~~~~~~~\n");
+			Professor prof = pdi.findProfessorById(instructorID);
+			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Professor "+prof.getName()+" ~~~~~~~~~~~~~~~~~~~\n");
+			Date currentDate=new Date();
+			System.out.println("\t\t"+currentDate);
 			System.out.println("\nChoose an option from the menu: ");
 			System.out.println("---------------------------------------");
 			System.out.println("1: Sign Up For Courses");

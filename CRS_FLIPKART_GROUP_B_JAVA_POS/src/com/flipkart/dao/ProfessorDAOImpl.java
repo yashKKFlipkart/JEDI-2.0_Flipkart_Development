@@ -105,6 +105,37 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
     }
 
     @Override
+    public Professor findProfessorById(Integer instructorID) {
+        String query = "SELECT u.userID, u.name, u.username, u.password, p.department, p.designation "
+                     + "FROM Professor p JOIN User u ON p.instructorID = u.userID "
+                     + "WHERE p.instructorID = ?";
+
+        try (Connection con = DButils.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, instructorID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Professor professor = new Professor();
+                professor.setUserID(rs.getInt("userID"));
+                professor.setName(rs.getString("name"));
+                professor.setUsername(rs.getString("username"));
+                professor.setPassword(rs.getString("password"));
+                professor.setDepartment(rs.getString("department"));
+                professor.setDesignation(rs.getString("designation"));
+                return professor;
+            } else {
+                System.out.println("No professor found with the given instructor ID.");
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
+    @Override
     public Professor findProfessorByUsername(String username) {
         String query = "SELECT u.userID, u.name, u.username, u.password, p.department, p.designation "
                      + "FROM Professor p JOIN User u ON p.instructorID = u.userID "

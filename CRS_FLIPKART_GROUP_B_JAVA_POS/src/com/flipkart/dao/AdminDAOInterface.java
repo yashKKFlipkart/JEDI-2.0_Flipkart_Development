@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.flipkart.bean.Admin;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
@@ -18,6 +19,8 @@ public interface AdminDAOInterface {
 	public void createAdmins(int userID, String name, String role, String username, String password, String doj);
 	
 	public Integer findAdminByUsername(String username);
+	
+	public Admin findAdminById(Integer adminID);
 	
 	public void approveStudentRegistration(int studentId);
 	

@@ -2,10 +2,12 @@ package com.flipkart.client;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Payment;
 import com.flipkart.bean.ReportCard;
+import com.flipkart.bean.Student;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -21,7 +23,10 @@ public class CRSStudentMenu {
 	public void CreateStudentMenu(int studentID) {
 
 		while (true) {
-			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Student ~~~~~~~~~~~~~~~~~~~\n");
+			Student stud = sdi.findStudentByStudentId(studentID);
+			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Student "+stud.getName()+" ~~~~~~~~~~~~~~~~~~~\n");
+			Date currentDate=new Date();
+			System.out.println("\t\t"+currentDate);
 			System.out.println("\nChoose an option from the menu: ");
 			System.out.println("---------------------------------------");
 			System.out.println("1: View Available Courses");
