@@ -24,6 +24,7 @@ public class Student extends User{
 	}
 
 	public void setStudentID(Integer studentID) {
+		super.setUserID(studentID);
 		this.studentID = studentID;
 	}
 

@@ -1,5 +1,9 @@
 package com.flipkart.client;
+import com.flipkart.bean.Student;
 import com.flipkart.business.*;
+import com.flipkart.dao.*;
+
+import java.util.List;
 import java.util.Scanner;
 
 import com.flipkart.business.AdminOperations;
@@ -8,6 +12,7 @@ public class CRSAdminMenu {
 
 	private Scanner in = new Scanner(System.in);
 	AdminOperationsInterface ao = new AdminOperations();
+	AdminDAOInterface adi = new AdminDAOImpl();
 	
 	public void CreateAdminMenu(int adminID) {
 		
@@ -115,6 +120,48 @@ public class CRSAdminMenu {
 
 	private void approveStudentRegistration(int adminId) {
 		// TODO Auto-generated method stub
-
+		
+		List<Student> pendingApprovalList = adi.getPendingStudentAccountsList();
+		// Display Pending Student List (studentID, name)
+		if(pendingApprovalList.isEmpty()) {
+			System.out.println("No unapproved students");
+			return;
+		}
+		System.out.println("List of Unapproved Students are:");
+		for(Student student : pendingApprovalList) {
+			System.out.println("Name:"+student.getName()+" studentID:"+student.getUserID());
+		}
+		// Press 1 to approve all students, Press 2 to approve student by ID
+		System.out.println("Press 1 to approve all students, Press 2 to approve student by ID ");
+		int optionSelected = in.nextInt();
+		in.nextLine();
+		if(optionSelected == 1) {
+			for(Student student : pendingApprovalList) {
+				adi.approveStudentRegistration(student.getUserID());
+				System.out.println("Name:"+student.getName()+" studentID:"+student.getUserID() +"approved successfully");
+			}
+		}else if(optionSelected == 2){
+			System.out.println("Enter student Id to approve: ");
+			int studentID = in.nextInt();
+			in.nextLine();
+			Student stud = null;
+			for(Student student : pendingApprovalList) {
+				if(student.getStudentID() == studentID) {
+					stud = student;
+					break;
+				}
+			}
+			if(stud!=null) {
+				adi.approveStudentRegistration(studentID);
+				System.out.println("Name:"+stud.getName()+" studentID:"+stud.getUserID() +"approved successfully");
+			}
+			else {
+				System.out.println("Student Id does not exist!");
+			}
+		}
+		else {
+			System.out.println("Wrong Option Selected!");
+		}
+		
 	}
 }

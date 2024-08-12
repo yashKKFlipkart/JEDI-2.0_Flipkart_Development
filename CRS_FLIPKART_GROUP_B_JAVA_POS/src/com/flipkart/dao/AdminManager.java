@@ -14,17 +14,18 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Payment;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
+import com.flipkart.utils.DButils;
 public class AdminManager {
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "sanjeev-flipkart");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root");
     }
 
     public void createAdmins(int userID, String name, String role, String username, String password, String doj) {
         String insertUserSQL = "INSERT INTO User (userID, name, role, username, password) VALUES (?, ?, ?, ?, ?)";
         String insertAdminSQL = "INSERT INTO Admin (adminID, doj) VALUES (?, ?)";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = DButils.getConnection();
              PreparedStatement userStatement = connection.prepareStatement(insertUserSQL);
              PreparedStatement adminStatement = connection.prepareStatement(insertAdminSQL)) {
 
@@ -1216,6 +1217,8 @@ public void viewStudents() {
  // Example usage
     public static void main(String[] args) {
         AdminManager adminManager = new AdminManager();
+        // int userID, String name, String role, String username, String password, String doj
+        adminManager.createAdmins(13, "admin","Admin" ,"admin" , "pass", "2024-08-12 10:33:00");
 
         // FOR ADD STUDENT IN USER
 //

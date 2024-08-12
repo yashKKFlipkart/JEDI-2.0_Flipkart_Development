@@ -4,6 +4,7 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Payment;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
+import com.flipkart.utils.DButils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ import java.util.List;
 
 public class StudentDAOImpl implements StudentDAOInterface {
 
-private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "sanjeev-flipkart");
-    }
+//private Connection getConnection() throws SQLException {
+//        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "sanjeev-flipkart");
+//    }
 
     //DONE
     @Override
@@ -22,10 +23,12 @@ private Connection getConnection() throws SQLException {
         Connection conn = null;
         PreparedStatement pstmtUser = null;
         PreparedStatement pstmtStudent = null;
+        PreparedStatement rstmtUser = null;
+        PreparedStatement rstmtStudent = null;
 
         try {
             // Establish connection to the database
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "username", "password");
+            conn = DButils.getConnection();
 
             // Disable auto-commit for transaction management
             conn.setAutoCommit(false);
@@ -38,6 +41,7 @@ private Connection getConnection() throws SQLException {
             pstmtUser.setString(3, role);
             pstmtUser.setString(4, username);
             pstmtUser.setString(5, password);
+            
 
             // Execute the insert into User table
             pstmtUser.executeUpdate();
@@ -51,6 +55,16 @@ private Connection getConnection() throws SQLException {
             // Execute the insert into Student table
             pstmtStudent.executeUpdate();
 
+            String sqlSemesterRegistration = "Insert INTO SemesterRegistration (studentID, registration_date, is_approved) VALUES (?,?,?)";
+
+            rstmtUser = conn.prepareStatement(sqlSemesterRegistration);
+            java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
+            rstmtUser.setInt(1, studentID);
+            rstmtUser.setDate(2, sqlDate);
+            rstmtUser.setInt(3, 0);
+            
+            rstmtUser.executeUpdate();
+            
             // Commit the transaction
             conn.commit();
 
@@ -89,7 +103,7 @@ public Boolean checkPaymentStatus(int studentID) {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // SQL query to get the payment status from the Payment table
             String sql = "SELECT payment_status FROM Payment WHERE studentID = ?";
@@ -137,7 +151,7 @@ public ReportCard viewReportCard(int studentID) {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // SQL query to get CPI from ReportCard table
             String sqlReportCard = "SELECT cpi FROM ReportCard WHERE studentID = ?";
@@ -195,7 +209,7 @@ public void viewRegisteredCourses(int studentID) {
 
         try {
             // Establish connection to the database
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+            conn = DButils.getConnection();
 
             // SQL query to retrieve the registered courses for the given student
             String sql = "SELECT c.courseID, c.courseName, c.instructorID " +
@@ -244,7 +258,7 @@ public Student findStudentByStudentId(int studentID) {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // SQL query to get student details from User and Student tables
             String sqlStudent = "SELECT User.username, User.name, User.role, User.password, Student.department "
@@ -325,7 +339,7 @@ public Student findStudentByUsername(String username) {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // SQL query to get studentID and department from User and Student tables
             String sqlUser = "SELECT User.userID, User.name, User.role, User.password, Student.department "
@@ -405,7 +419,7 @@ public ArrayList<Course> viewAvailableCourses() {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // SQL query to get available courses
             String sql = "SELECT courseID, courseName, instructorID, totalSeats, availableSeats, isAvailableThisSemester "
@@ -459,7 +473,7 @@ public boolean addCourse(int studentID, int courseID, String courseName) {
 
         try {
             // Establish connection to the database
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+            conn = DButils.getConnection();
 
             // Check if the course exists and has available seats
             String sqlCheckCourse = "SELECT courseID, availableSeats FROM Course WHERE courseID = ? AND courseName = ? AND isAvailableThisSemester = 1";
@@ -523,7 +537,7 @@ public boolean dropCourse(int studentID, int courseID) {
 
         try {
             // Establish connection to the database
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+            conn = DButils.getConnection();
 
             // Disable auto-commit for transaction management
             conn.setAutoCommit(false);
@@ -582,7 +596,7 @@ public boolean dropCourse(int studentID, int courseID) {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // Disable auto-commit for transaction management
             conn.setAutoCommit(false);
@@ -651,7 +665,7 @@ public void makePayment(Payment payment) {
 
         try {
             // Establish connection to the database
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        conn = DButils.getConnection();
 
             // Disable auto-commit for transaction management
             conn.setAutoCommit(false);
@@ -707,7 +721,7 @@ public void viewStudents() {
 
         try {
             // Establish connection to the database
-//         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root1234");
+        	conn = DButils.getConnection();
 
             // SQL query to select all students from the Student table
             String sql = "SELECT s.studentID, s.department, u.name, u.username " +

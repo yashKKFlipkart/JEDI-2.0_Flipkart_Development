@@ -8,6 +8,6 @@ public interface UserDAOInterface {
 	
 	public void updateStudentPassword(String userID, String password);
 	
-	public boolean loginUser(String userID, String password, String role);
+	public boolean loginUser(Integer userID, String password, String role);
 	
 }

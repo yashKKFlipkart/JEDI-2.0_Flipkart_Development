@@ -4,6 +4,8 @@
 package com.flipkart.client;
 
 import com.flipkart.bean.Admin;
+import com.flipkart.dao.*;
+
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.business.AdminOperations;
@@ -19,8 +21,10 @@ import java.util.Scanner;
 public class CRSApplication {
 	
 	private Scanner in = new Scanner(System.in);
+	private StudentDAOInterface sdi = new StudentDAOImpl();
 	private StudentOperations sOps = new StudentOperations();
 	private ProfessorOperations pOps = new ProfessorOperations() ;
+	UserDAOInterface udi = new UserDAOImpl();
 
 	public CRSApplication(){
 		 
@@ -74,41 +78,53 @@ public class CRSApplication {
 		String username=null;
 		String password=null;
 		String role;
-		int studentID;
+		int userID;
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("Enter your username: ");
-		username = in.nextLine();
-		System.out.println("Enter your password: ");
-		password = in.nextLine();
-		System.out.println("Enter your ID: ");
-		studentID = in.nextInt();
-		in.nextLine();
 		System.out.println("Choose your Role: ");
 		System.out.println("S for Student");
 		System.out.println("P for Professor");
 		System.out.println("A for Admin");
 		role = in.nextLine();
+		System.out.println("Enter your username: ");
+		username = in.nextLine();
+		System.out.println("Enter your password: ");
+		password = in.nextLine();
+		System.out.println("Enter your user ID: ");
+		userID = in.nextInt();
+		in.nextLine();
 		switch (role) {
 		case "S":
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println("Student Login Successful");
-            CRSStudentMenu stud = new CRSStudentMenu();
-            stud.CreateStudentMenu(studentID);
+			boolean response = udi.loginUser(userID, password, role);
+			System.out.println(response);
+			if(response) {				
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("Student Login Successful");
+				CRSStudentMenu stud = new CRSStudentMenu();
+				stud.CreateStudentMenu(userID);
+			}
 			break;
 
 		case "P":
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println("Professor Login Successful");
-            CRSProfessorMenu prof = new CRSProfessorMenu();
-            prof.CreateProfessorMenu(username);
+			boolean response2 = udi.loginUser(userID, password, role);
+			System.out.println(response2);
+			if(response2) {
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("Professor Login Successful");
+				CRSProfessorMenu prof = new CRSProfessorMenu();
+				prof.CreateProfessorMenu(username);
+			}
 			break;
-
+				
 		case "A":
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println("Admin Login Successful");
-            CRSAdminMenu adm = new CRSAdminMenu();
-            adm.CreateAdminMenu(101);
+			boolean response3 = udi.loginUser(userID, password, role);
+			System.out.println(response3);
+			if(response3) {
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("Admin Login Successful");
+				CRSAdminMenu adm = new CRSAdminMenu();
+				adm.CreateAdminMenu(101);				
+			}
 			break;
 
 		default:
@@ -116,10 +132,6 @@ public class CRSApplication {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		}
 	}
-	
-//	void registerStudent() {
-//		System.out.println("In Register Student Menu");
-//	}
 	
 	void registerStudent() {
 		System.out.println("enter username");
@@ -133,11 +145,13 @@ public class CRSApplication {
 		System.out.println("enter studentID");
 		int studentID = in.nextInt();
 
-		if(sOps.addStudent(username,name,"student",password,studentID,department)){
+		if(sdi.addStudent(username, name, "S", password, studentID, department)) {
 			System.out.println("Student Added Successfully");
-		}else{
-			System.out.println("student already exists");
 		}
+		else {
+			System.out.println("Student Already exists");
+		}
+		
 	}
 	
 	void updatePassword() {

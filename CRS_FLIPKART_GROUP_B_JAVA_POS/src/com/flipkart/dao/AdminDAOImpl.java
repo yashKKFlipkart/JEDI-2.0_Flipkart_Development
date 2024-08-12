@@ -10,12 +10,13 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.ReportCard;
 import com.flipkart.bean.Student;
+import com.flipkart.utils.DButils;
 
 public class AdminDAOImpl implements AdminDAOInterface {
 	
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root");
-    }
+//    private Connection getConnection() throws SQLException {
+//        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root");
+//    }
 
     @Override
     public void createAdmins(int userID, String name, String role, String username, String password, String doj) {
@@ -23,7 +24,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
     	String insertUserSQL = "INSERT INTO User (userID, name, role, username, password) VALUES (?, ?, ?, ?, ?)";
         String insertAdminSQL = "INSERT INTO Admin (adminID, doj) VALUES (?, ?)";
         
-        try (Connection connection = getConnection();
+        try (Connection connection = DButils.getConnection();
                 PreparedStatement userStatement = connection.prepareStatement(insertUserSQL);
                 PreparedStatement adminStatement = connection.prepareStatement(insertAdminSQL)) {
 
@@ -59,7 +60,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
                        "JOIN Admin a ON u.userID = a.adminID " +
                        "WHERE u.username = ?";
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             
             stmt.setString(1, username);
@@ -78,7 +79,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
     public void approveStudentRegistration(int studentId) {
         String query = "UPDATE SemesterRegistration SET is_approved = 1 WHERE studentID = ?";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             
             stmt.setInt(1, studentId);
@@ -99,7 +100,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
     public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
         String query = "INSERT INTO Course (courseID, courseName, instructorID, totalSeats, availableSeats, isAvailableThisSemester) VALUES (?, ?, ?, ?, ?, ?)";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             
             stmt.setInt(1, courseID);
@@ -128,7 +129,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         // First, check if the course exists
         String checkQuery = "SELECT COUNT(*) FROM Course WHERE courseID = ?";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
             
             checkStmt.setInt(1, courseID);
@@ -147,7 +148,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         // If course exists, proceed to delete
         String deleteQuery = "DELETE FROM Course WHERE courseID = ?";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement deleteStmt = con.prepareStatement(deleteQuery)) {
             
             deleteStmt.setInt(1, courseID);
@@ -167,7 +168,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         String userQuery = "INSERT INTO User (userID, name, role, username, password) VALUES (?, ?, ?, ?, ?)";
         String professorQuery = "INSERT INTO Professor (instructorID, department, designation) VALUES (?, ?, ?)";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement userStmt = con.prepareStatement(userQuery);
              PreparedStatement professorStmt = con.prepareStatement(professorQuery)) {
             
@@ -202,7 +203,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         // First, check if the professor exists
         String checkQuery = "SELECT COUNT(*) FROM Professor WHERE instructorID = ?";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
             
             checkStmt.setInt(1, professorID);
@@ -221,7 +222,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         // Set instructorID to NULL in Course table for courses taught by the professor
         String updateCourseQuery = "UPDATE Course SET instructorID = NULL WHERE instructorID = ?";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement updateCourseStmt = con.prepareStatement(updateCourseQuery)) {
             
             updateCourseStmt.setInt(1, professorID);
@@ -235,7 +236,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         String deleteProfessorQuery = "DELETE FROM Professor WHERE instructorID = ?";
         String deleteUserQuery = "DELETE FROM User WHERE userID = ?";
         
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement deleteProfessorStmt = con.prepareStatement(deleteProfessorQuery);
              PreparedStatement deleteUserStmt = con.prepareStatement(deleteUserQuery)) {
             
@@ -262,7 +263,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         float totalGradePoints = 0;
         int totalCourses = 0;
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             
             stmt.setInt(1, studentId);
@@ -311,7 +312,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
         String query = "SELECT courseID, grade FROM CourseGrade WHERE studentID = ?";
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
              
             // Set the studentID parameter in the query
@@ -347,7 +348,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
         String notificationQuery = "INSERT INTO PaymentNotification (paymentID, studentID, notification_message) VALUES (?, ?, ?)";
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement paymentStmt = con.prepareStatement(paymentQuery);
              PreparedStatement notificationStmt = con.prepareStatement(notificationQuery)) {
             
@@ -385,7 +386,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
         String notificationQuery = "INSERT INTO PaymentNotification (paymentID, studentID, notification_message) VALUES (?, ?, ?)";
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement paymentStmt = con.prepareStatement(paymentQuery);
              PreparedStatement notificationStmt = con.prepareStatement(notificationQuery)) {
             
@@ -429,7 +430,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
                        "JOIN User u ON s.studentID = u.userID " +
                        "WHERE rc.courseID = ?";
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
              
             // Set the courseID parameter in the query
@@ -459,9 +460,8 @@ public class AdminDAOImpl implements AdminDAOInterface {
         String query = "SELECT s.studentID, s.department, u.name, u.role, u.username, u.password " +
                        "FROM Student s JOIN User u ON s.studentID = u.userID " +
                        "WHERE s.studentID = ?";
-        Student student = null;
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             
             // Set the studentID parameter in the query
@@ -476,20 +476,21 @@ public class AdminDAOImpl implements AdminDAOInterface {
                 String username = rs.getString("username");
                 String password = rs.getString("password"); // Get password if needed
                 
-                // Create a new Student object using the new constructor
-                student = new Student();
+                Student student = new Student();
+                student.setStudentID(studentID);
                 student.setUsername(username);
                 student.setName(studentName);
                 student.setRole(role);
                 student.setPassword(password);
-                student.setStudentID(studentID);
                 student.setDepartment(department);
+                
+                return student;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-        return student; // Returns null if no student is found
+        return null; // Returns null if no student is found
     }
 
     
@@ -500,7 +501,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
                        "FROM Student s JOIN SemesterRegistration sr ON s.studentID = sr.studentID " +
                        "WHERE sr.is_approved = 0"; // Assuming 0 means not approved
 
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
              
             ResultSet rs = stmt.executeQuery();

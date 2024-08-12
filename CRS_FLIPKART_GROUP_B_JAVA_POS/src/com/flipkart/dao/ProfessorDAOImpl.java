@@ -1,6 +1,8 @@
 package com.flipkart.dao;
 
 import com.flipkart.bean.Professor;
+import com.flipkart.utils.DButils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,15 +13,15 @@ import java.util.List;
 
 public class ProfessorDAOImpl implements ProfessorDAOInterface {
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root");
-    }
+//    private Connection getConnection() throws SQLException {
+//        return DriverManager.getConnection("jdbc:mysql://localhost:3306/crs", "root", "root");
+//    }
 
     @Override
     public void addGrade(Integer studentID, Integer courseID, String alphaGrade) {
         String query = "INSERT INTO CourseGrade (studentID, courseID, grade) VALUES (?, ?, ?)"
                      + "ON DUPLICATE KEY UPDATE grade = VALUES(grade)";
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, studentID);
             stmt.setInt(2, courseID);
@@ -38,7 +40,7 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
                      + "JOIN Course c ON rc.courseID = c.courseID "
                      + "JOIN User u ON s.studentID = u.userID "
                      + "WHERE c.courseID = ?"; // Assuming semesterID is not used in the current schema
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, courseID);
             ResultSet rs = stmt.executeQuery();
@@ -55,7 +57,7 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
         String query = "SELECT u.name, p.department, p.designation FROM Professor p "
                      + "JOIN User u ON p.instructorID = u.userID "
                      + "WHERE p.instructorID = ?";
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, instructorID);
             ResultSet rs = stmt.executeQuery();
@@ -75,7 +77,7 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
     public void registerCourse(int instructorID, String courseName, Integer courseID) {
         String query = "INSERT INTO Course (courseID, courseName, instructorID) VALUES (?, ?, ?)"
                      + "ON DUPLICATE KEY UPDATE courseName = VALUES(courseName), instructorID = VALUES(instructorID)";
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, courseID);
             stmt.setString(2, courseName);
@@ -92,7 +94,7 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
         String query = "SELECT u.userID, u.name, u.username, u.password, p.department, p.designation "
                      + "FROM Professor p JOIN User u ON p.instructorID = u.userID "
                      + "WHERE u.username = ?";
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
@@ -119,7 +121,7 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
     public void viewProfessors() {
         String query = "SELECT u.userID, u.name, u.username, p.department, p.designation FROM Professor p "
                      + "JOIN User u ON p.instructorID = u.userID";
-        try (Connection con = getConnection();
+        try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
