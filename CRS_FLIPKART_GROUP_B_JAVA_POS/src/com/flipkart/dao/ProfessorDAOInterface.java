@@ -6,10 +6,13 @@ public interface ProfessorDAOInterface {
 
 	public void addGrade(Integer studentID,Integer courseID, String alphaGrade);
 	
+	// view enrolled students
 	public void ViewEnrolledStudents(Integer courseID);
 	
-	public void viewCourseProfessor(int instructorID) ;
+	// view courses signed by by the professor
+	public void viewSignedUpCourses(int instructorID) ;
 	
+	// sign up for course
 	public void registerCourse(int instructorID, String courseName, Integer courseID);
 	
 	public Professor findProfessorByUsername(String username);

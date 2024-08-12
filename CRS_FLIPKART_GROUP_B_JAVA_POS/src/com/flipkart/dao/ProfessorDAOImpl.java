@@ -53,24 +53,39 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
     }
 
     @Override
-    public void viewCourseProfessor(int instructorID) {
-        String query = "SELECT u.name, p.department, p.designation FROM Professor p "
-                     + "JOIN User u ON p.instructorID = u.userID "
-                     + "WHERE p.instructorID = ?";
-        try (Connection con = DButils.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
+    // view signed up courses by the instructor
+    public void viewSignedUpCourses(int instructorID) {
+    	String query = "SELECT courseID, courseName, totalSeats, availableSeats, isAvailableThisSemester "
+                + "FROM Course WHERE instructorID = ?";
+    	try (Connection con = DButils.getConnection();
+                PreparedStatement stmt = con.prepareStatement(query)) {
+    		// Set the instructorID parameter in the query
             stmt.setInt(1, instructorID);
+
+            // Execute the query and get the result set
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                System.out.println("Name: " + rs.getString("name")
-                                 + ", Department: " + rs.getString("department")
-                                 + ", Designation: " + rs.getString("designation"));
-            } else {
-                System.out.println("No professor found with the given ID.");
+            
+         // Iterate through the result set and display course details
+            while (rs.next()) {
+                int courseID = rs.getInt("courseID");
+                String courseName = rs.getString("courseName");
+                int totalSeats = rs.getInt("totalSeats");
+                int availableSeats = rs.getInt("availableSeats");
+                boolean isAvailableThisSemester = rs.getBoolean("isAvailableThisSemester");
+
+                // Display the course information
+                System.out.println("Course ID: " + courseID);
+                System.out.println("Course Name: " + courseName);
+                System.out.println("Total Seats: " + totalSeats);
+                System.out.println("Available Seats: " + availableSeats);
+                System.out.println("Available This Semester: " + isAvailableThisSemester);
+                System.out.println("------------------------------------------------");
             }
-        } catch (SQLException e) {
+    		
+    	}catch (SQLException e) {
             e.printStackTrace();
         }
+    	
     }
 
     @Override

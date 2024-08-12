@@ -112,7 +112,7 @@ public class CRSApplication {
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				System.out.println("Professor Login Successful");
 				CRSProfessorMenu prof = new CRSProfessorMenu();
-				prof.CreateProfessorMenu(username);
+				prof.CreateProfessorMenu(userID);
 			}
 			break;
 				
@@ -123,7 +123,7 @@ public class CRSApplication {
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				System.out.println("Admin Login Successful");
 				CRSAdminMenu adm = new CRSAdminMenu();
-				adm.CreateAdminMenu(101);				
+				adm.CreateAdminMenu(userID);				
 			}
 			break;
 
@@ -164,63 +164,66 @@ public class CRSApplication {
 				String username = in.nextLine();
 				System.out.println("Enter your current password: ");
 				String password = in.nextLine();
-
-				Student currentStudent= sOps.findStudentByUsername(username);
-
-				if(currentStudent!=null){
-					if (currentStudent.getPassword().equals(password)) {
-						System.out.println("Enter your New Password: ");
-						String newPassword = in.nextLine();
-						currentStudent.setPassword(newPassword);
-						System.out.println("Successfully updated password");
-					}
-					else {
-						System.out.println("Invalid Password");
-					}
+				System.out.println("Enter your studentId: ");
+				Integer studentID = in.nextInt();
+				in.nextLine();
+				
+				boolean response = udi.loginUser(studentID, password, role);
+				if(response) {
+					// student credentials valid -> allow to change password
+					System.out.println("Enter your New Password: ");
+					String newPassword = in.nextLine();
+					udi.updateStudentPassword(studentID, newPassword);
+				}else {
+					System.out.println("Invalid Student Credentials!");
 				}
+				
 				break;
 
 			case "P":
 				System.out.println("Enter your username: ");
-				String profUsername = in.nextLine();
-				System.out.println("Enter your password: ");
-				String profPassword = in.nextLine();
-				Professor currentProfessor = pOps.findProfessorByUsername(profUsername);
-				if(currentProfessor!=null){
-					if (currentProfessor.getPassword().equals(profPassword)) {
-						System.out.println("Enter your New Password: ");
-						String newPassword = in.nextLine();
-						currentProfessor.setPassword(newPassword);
-						System.out.println("Successfully updated password"+ currentProfessor.getPassword());
-					}
-					else{
-						System.out.println("Invalid Password");
-					}
+				String username2 = in.nextLine();
+				System.out.println("Enter your current password: ");
+				String password2 = in.nextLine();
+				System.out.println("Enter your instructorId: ");
+				Integer instructorID = in.nextInt();
+				in.nextLine();
+				
+				boolean response2 = udi.loginUser(instructorID, password2, role);
+				if(response2) {
+					// professor credentials valid -> allow to change password
+					System.out.println("Enter your New Password: ");
+					String newPassword = in.nextLine();
+					udi.updateProfessorPassword(instructorID, newPassword);
+				}else {
+					System.out.println("Invalid Professor Credentials!");
 				}
-
+				
 				break;
+				
 			case "A":
 				System.out.println("Enter your username: ");
-				String adminUsername = in.nextLine();
-				System.out.println("Enter your password: ");
-				String adminPassword = in.nextLine();
-				AdminOperations admin = new AdminOperations();
-				Admin currentAdmin= new Admin();
-				String pass= admin.findAdminByUsername(adminUsername);
-				if (pass.equals(adminPassword)) {
+				String username3 = in.nextLine();
+				System.out.println("Enter your current password: ");
+				String password3 = in.nextLine();
+				System.out.println("Enter your adminID: ");
+				Integer adminID = in.nextInt();
+				in.nextLine();
+				
+				boolean response3 = udi.loginUser(adminID, password3, role);
+				if(response3) {
+					// admin credentials valid -> allow to change password
 					System.out.println("Enter your New Password: ");
-					String newAdminPassword = in.nextLine();
-					currentAdmin.setPassword(newAdminPassword);
-					System.out.println("Successfully updated password");
-					System.out.println("Your new Password is: " + currentAdmin.getPassword());
+					String newPassword = in.nextLine();
+					udi.updateStudentPassword(adminID, newPassword);
+				}else {
+					System.out.println("Invalid Admin Credentials!");
 				}
-				else {
-					System.out.println("Invalid Password");
-				}
-
+				
 				break;
 
 			default:
+				System.out.println("Wrong Option Selected!");
 				return;
 		}
 

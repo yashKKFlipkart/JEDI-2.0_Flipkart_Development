@@ -16,12 +16,12 @@ public class UserDAOImpl implements UserDAOInterface {
 //    }
 
     @Override
-    public void updateProfessorPassword(String userID, String password) {
+    public void updateProfessorPassword(Integer userID, String password) {
         String query = "UPDATE User SET password = ? WHERE userID = ? AND role = 'P'";
         try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, password);
-            stmt.setInt(2, Integer.parseInt(userID));
+            stmt.setInt(2, (userID));
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Professor password updated successfully.");
@@ -34,12 +34,12 @@ public class UserDAOImpl implements UserDAOInterface {
     }
 
     @Override
-    public void updateAdminPassword(String userID, String password) {
+    public void updateAdminPassword(Integer userID, String password) {
         String query = "UPDATE User SET password = ? WHERE userID = ? AND role = 'A'";
         try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, password);
-            stmt.setInt(2, Integer.parseInt(userID));
+            stmt.setInt(2, (userID));
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Admin password updated successfully.");
@@ -52,12 +52,12 @@ public class UserDAOImpl implements UserDAOInterface {
     }
 
     @Override
-    public void updateStudentPassword(String userID, String password) {
+    public void updateStudentPassword(Integer userID, String password) {
         String query = "UPDATE User SET password = ? WHERE userID = ? AND role = 'S'";
         try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, password);
-            stmt.setInt(2, Integer.parseInt(userID));
+            stmt.setInt(2, (userID));
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Student password updated successfully.");
