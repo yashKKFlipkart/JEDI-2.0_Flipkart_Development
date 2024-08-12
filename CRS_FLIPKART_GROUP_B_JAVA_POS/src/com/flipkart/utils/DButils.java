@@ -19,7 +19,7 @@ public class DButils {
             try 
             {
             	Properties prop = new Properties();
-                InputStream inputStream = new FileInputStream("/Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS_FLIPKART_GROUP_B_JAVA_POS/src/config.properties");
+                InputStream inputStream = new FileInputStream("/Users/sanjeev.mallick/Desktop/JEDI-2.0_Flipkart_Development/CRS_FLIPKART_GROUP_B_JAVA_POS/src/config.properties");
                 prop.load(inputStream);
                 String driver = prop.getProperty("driver");
                 String url = prop.getProperty("url");
