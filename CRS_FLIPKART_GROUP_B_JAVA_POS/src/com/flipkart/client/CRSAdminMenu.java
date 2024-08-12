@@ -1,8 +1,10 @@
 package com.flipkart.client;
+import com.flipkart.bean.Course;
 import com.flipkart.bean.Student;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,6 +15,8 @@ public class CRSAdminMenu {
 	private Scanner in = new Scanner(System.in);
 	AdminOperationsInterface ao = new AdminOperations();
 	AdminDAOInterface adi = new AdminDAOImpl();
+	StudentDAOInterface sdi = new StudentDAOImpl();
+	ProfessorDAOInterface pdi = new ProfessorDAOImpl();
 	
 	public void CreateAdminMenu(int adminID) {
 		
@@ -21,8 +25,8 @@ public class CRSAdminMenu {
 			System.out.println("\nChoose an option from the Menu: ");
 			System.out.println("---------------------------------------");
 			System.out.println("1: Approve Student Registration");
-			System.out.println("2: Add Grade");
-			System.out.println("3: Add / Remove Course");
+			System.out.println("2: Add Course");
+			System.out.println("3: Remove Course");
 			System.out.println("4: Add Professor");
 			System.out.println("5: Remove Professor");
 			System.out.println("6: Send Payment Notification");
@@ -35,11 +39,12 @@ public class CRSAdminMenu {
 			switch (optionSelected) {
 				case 1:
 					approveStudentRegistration(adminID);
+					break;
 				case 2:
 					addCourse(adminID);
 					break;
 				case 3:
-					addOrRemoveCourse(adminID);
+					removeCourse(adminID);
 					break;
 	
 				case 4:
@@ -53,69 +58,13 @@ public class CRSAdminMenu {
 					break;
 				case 7:
 					viewAvailableCourses();
+					break;
 				case 8:
 					return;
 				default:
 					System.out.println("~~~~~~~~~~~~~ Wrong Choice!!! ~~~~~~~~~~~~~");
 			}
 		}
-	}
-
-	private void viewAvailableCourses() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void sendFeePaymentNotification(int adminId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void viewReportCard(int adminId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void removeProfessor(int adminId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void addProfessor(int adminId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void addOrRemoveCourse(int adminID) {
-		System.out.println("Press 1 to Add Course, Press 2 to Remove Course");
-		int optionSelected = in.nextInt();
-		in.nextLine();
-		switch(optionSelected) {
-		
-		case 1: 
-			System.out.print("Enter Course Name:");
-			String courseName = in.nextLine();
-			System.out.print("Enter Course ID:");
-			String cID = in.nextLine();
-			int courseID = Integer.valueOf(cID);
-			ao.addCourse(courseName, courseID);
-			break;
-		case 2:
-			System.out.println("Enter Course ID to be removed:");
-			int courseIDToRemove = in.nextInt();
-			ao.removeCourse(courseIDToRemove);
-			break;
-		default:
-			System.out.println("~~~~~~~~~~~~~ Wrong Choice!!! ~~~~~~~~~~~~~");
-		
-		}
-		
-
-	}
-
-	private void addCourse(int adminId) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void approveStudentRegistration(int adminId) {
@@ -164,4 +113,102 @@ public class CRSAdminMenu {
 		}
 		
 	}
+	
+
+	private void addCourse(int adminId) {
+		// TODO Auto-generated method stub
+		String courseName;
+		int courseID;
+		
+		int totalSeats;
+		int availableSeats;
+		boolean isAvailableThisSemester;
+		
+		System.out.println("Enter Course Details to be added!");
+		System.out.println("Enter Course Name:");
+		courseName = in.nextLine();
+		System.out.println("Enter Course ID:");
+		courseID = in.nextInt();
+		in.nextLine();
+		System.out.println("Enter Total Seats:");
+		totalSeats = in.nextInt();
+		in.nextLine();
+		
+		
+		availableSeats = totalSeats;
+		isAvailableThisSemester = true;
+		
+		adi.addCourse(courseName, courseID, totalSeats, availableSeats, isAvailableThisSemester);
+	}
+
+	
+	private void removeCourse(int adminID) {
+		viewAvailableCourses();
+		System.out.println("Enter CourseID to remove a course:");
+		int courseID = in.nextInt();
+		in.nextLine();
+		boolean response = adi.removeCourse(courseID);
+		if(response) {
+			System.out.println("Course Removed Successfully!");
+		}else {
+			System.out.println("Course could not be Removed!");
+		}
+	}
+	
+	
+	private void addProfessor(int adminId) {
+		// TODO Auto-generated method stub
+		int instructorID;
+		String name;
+		String username;
+		String password;
+		String department;
+		String designation;
+		System.out.println("Enter Professor Details to Add!");
+		System.out.println("Enter Professor ID:");
+		instructorID = in.nextInt();
+		in.nextLine();
+		System.out.println("Enter Professor Name:");
+		name = in.nextLine();
+		System.out.println("Enter Professor Username:");
+		username = in.nextLine();
+		System.out.println("Enter Professor Password:");
+		password = in.nextLine();
+		System.out.println("Enter Professor Department:");
+		department = in.nextLine();
+		System.out.println("Enter Professor Designation:");
+		designation = in.nextLine();
+		
+		adi.addProfessor(instructorID, name, username, password, department, designation);
+
+	}
+	
+	private void removeProfessor(int adminId) {
+		// TODO Auto-generated method stub
+		pdi.viewProfessors();
+		System.out.println("Enter ProfessorID to remove professor:");
+		int instructorID = in.nextInt();
+		in.nextLine();
+		boolean response = adi.removeProfessor(instructorID);
+		if(response) {
+			System.out.println("Professor Removed Successfully!");
+		}else {
+			System.out.println("Professor could not be Removed!");
+		}
+	}
+	
+	private void sendFeePaymentNotification(int adminId) {
+		// TODO Auto-generated method stub
+		adi.sendFeePayNotification();
+	}
+	
+	private void viewAvailableCourses() {
+		// TODO Auto-generated method stub
+		ArrayList<Course> courses = sdi.viewAvailableCourses();
+		System.out.println("Viewing All Available Courses");
+		for(Course course: courses) {
+			System.out.println("CourseID:"+course.getCourseID()+" CourseName:"+course.getCoursename()+" InstructorId:"+course.getInstructorID());
+		}
+	}
+	
 }

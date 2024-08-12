@@ -1,5 +1,10 @@
 package com.flipkart.client;
+import com.flipkart.bean.Course;
+import com.flipkart.bean.Payment;
 import com.flipkart.business.*;
+import com.flipkart.dao.*;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.flipkart.business.StudentOperations;
@@ -8,14 +13,15 @@ public class CRSStudentMenu {
 
 	private Scanner in = new Scanner(System.in);
 	private StudentOperationsInterface so = new StudentOperations();
-	
+	StudentDAOInterface sdi = new StudentDAOImpl();
+	AdminDAOInterface adi = new AdminDAOImpl();
 	public void CreateStudentMenu(int studentID) {
 
 		while (true) {
 			System.out.println("\n~~~~~~~~~~~~~~~~~~~ Welcome Student ~~~~~~~~~~~~~~~~~~~\n");
 			System.out.println("\nChoose an option from the menu: ");
 			System.out.println("---------------------------------------");
-			System.out.println("1: Course Selection");
+			System.out.println("1: View Available Courses");
 			System.out.println("2: Add Course");
 			System.out.println("3: Drop Course");
 			System.out.println("4: Finish registration ");
@@ -30,7 +36,8 @@ public class CRSStudentMenu {
 			in.nextLine();
 			switch (optionSelected) {
 			case 1:
-				registerCourses(studentID);
+				viewAvailableCourses();
+				break;
 			case 2:
 				addCourse(studentID);
 				break;
@@ -60,49 +67,127 @@ public class CRSStudentMenu {
 		}
 	}
 
-	private void makePayment(int studId) {
+	private ArrayList<Course> viewAvailableCourses() {
 		// TODO Auto-generated method stub
-
+		ArrayList<Course> courses = sdi.viewAvailableCourses();
+		System.out.println("Availble Courses are: ");
+		for(Course course: courses) {
+			System.out.println("CourseID:"+course.getCourseID()+" CourseName:"+course.getCoursename());				
+		}	
+		return courses;
 	}
-
-	private void checkPaymentStatus(int studId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void viewReportCard(int studId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void viewRegisteredCourses(int studentID) {
-		so.viewRegisteredCourses(studentID);
-	}
-
-	private void finishRegistration(int studId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void dropCourse(int studentID) {
-		System.out.println("Enter Course ID to be removed:");
-		int courseID = in.nextInt();
-		so.dropCourse(studentID, courseID);
-	}
-
+	
 	private void addCourse(int studentID) {
-		System.out.print("Enter Course Name:");
-		String courseName = in.nextLine();
-		System.out.print("Enter Course ID:");
-		String cID = in.nextLine();
-		int courseID = Integer.valueOf(cID);
-		boolean ans = so.addCourse(studentID, courseID, courseName);
-		if(!ans) {
-			System.out.println("Error in adding Course");
+		ArrayList<Course> courses = viewAvailableCourses();
+		// Ask to select courseID and 0 to exit
+		System.out.println("Enter courseIDs to add the course");
+		
+		System.out.print("Enter first primary course ID: ");
+		int c1 = in.nextInt();
+		in.nextLine();
+		System.out.print("Enter second primary course ID: ");
+		int c2 = in.nextInt();
+		in.nextLine();
+		System.out.print("Enter third primary course ID: ");
+		int c3 = in.nextInt();
+		in.nextLine();
+		System.out.print("Enter fourth primary course ID: ");
+		int c4 = in.nextInt();
+		in.nextLine();
+		System.out.print("Enter first elective course ID: ");
+		int c5 = in.nextInt();
+		in.nextLine();
+		System.out.print("Enter second elective course ID: ");
+		int c6 = in.nextInt();
+		in.nextLine();
+		
+		for(Course course: courses) {
+			int courseID = course.getCourseID();
+			if(courseID == c1) {
+				sdi.addCourse(studentID, courseID, course.getCoursename());
+				System.out.println(course.getCoursename()+" added successfully!");
+			}
+			else if(courseID == c2) {
+				sdi.addCourse(studentID, courseID, course.getCoursename());
+				System.out.println(course.getCoursename()+" added successfully!");
+			}
+			else if(courseID == c3) {
+				sdi.addCourse(studentID, courseID, course.getCoursename());
+				System.out.println(course.getCoursename()+" added successfully!");
+			}
+			else if(courseID == c4) {
+				sdi.addCourse(studentID, courseID, course.getCoursename());
+				System.out.println(course.getCoursename()+" added successfully!");
+			}
+			else if(courseID == c5) {
+				sdi.addCourse(studentID, courseID, course.getCoursename());
+				System.out.println(course.getCoursename()+" added successfully!");
+			}
+			else if(courseID == c6) {
+				sdi.addCourse(studentID, courseID, course.getCoursename());
+				System.out.println(course.getCoursename()+" added successfully!");
+			}
+		}
+	}
+	
+	private void dropCourse(int studentID) {
+		viewRegisteredCourses(studentID);
+		System.out.println("Enter courseIDs to remove the course, enter 0 to quit!");
+		while(true) {
+			System.out.print("Enter courseID:");
+			int courseID = in.nextInt();
+			in.nextLine();
+			
+			if(courseID==0) {
+				System.out.println("Thank You for removing the courses!");
+				break;
+			}
+			boolean response = sdi.dropCourse(studentID, courseID);
+			if(response) {
+				System.out.println("Course Removed Successfully!");
+			}else {
+				System.out.println("Course Not Registered by Student!");
+			}
 		}
 	}
 
-	private void registerCourses(int studId) {
+	private void finishRegistration(int studentID) {
+		// TODO Auto-generated method stub
+		sdi.addPaymentEntry(studentID, studentID);
+		System.out.println("Student Registration Completed Successfully!");
+		viewRegisteredCourses(studentID);
+	}
+	
+	private void viewRegisteredCourses(int studentID) {
+		sdi.viewRegisteredCourses(studentID);
+	}
+	
+	private void viewReportCard(int studentID) {
+		// TODO Auto-generated method stub
+		adi.generateReportCard(studentID);
+		sdi.viewReportCard(studentID);
+		
+	}
+	private void checkPaymentStatus(int studentID) {
+		// TODO Auto-generated method stub
+		boolean response = sdi.checkPaymentStatus(studentID);
+		if(response) {
+			System.out.println("Fees Already Paid");
+		}else {
+			System.out.println("Fee Payment Pending! Please make payment");
+		}
+		
+	}
+	private void makePayment(int studentID) {
+		// TODO Auto-generated method stub
+		boolean response = sdi.checkPaymentStatus(studentID);
+		if(response) {
+			System.out.println("Fees Already Paid");
+			return;
+		}
+		sdi.makePayment(studentID);
+		adi.PaymentCompletionNotification(studentID);
+		
 	}
 
 }

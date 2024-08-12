@@ -97,7 +97,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
 
     @Override
-    public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
+    public void addCourse(String courseName, int courseID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
         String query = "INSERT INTO Course (courseID, courseName, instructorID, totalSeats, availableSeats, isAvailableThisSemester) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection con = DButils.getConnection();
@@ -105,13 +105,9 @@ public class AdminDAOImpl implements AdminDAOInterface {
             
             stmt.setInt(1, courseID);
             stmt.setString(2, courseName);
-
-            // Check if instructorID is provided, set it or null
-            if (instructorID != null) {
-                stmt.setInt(3, instructorID); // Set instructorID if provided
-            } else {
-                stmt.setNull(3, java.sql.Types.INTEGER); // Set NULL if not provided
-            }
+            
+            stmt.setNull(3, java.sql.Types.INTEGER); // Set NULL if not provided
+            
 
             stmt.setInt(4, totalSeats); // Set totalSeats
             stmt.setInt(5, availableSeats); // Set availableSeats

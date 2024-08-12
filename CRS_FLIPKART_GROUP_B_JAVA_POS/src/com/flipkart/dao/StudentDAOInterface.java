@@ -29,7 +29,9 @@ public interface StudentDAOInterface {
 	
 	public boolean finishRegistration(int studentId, int semesterId);
 	
-	public void makePayment(Payment payment);
+	public void addPaymentEntry(int paymentID, int studentID) ;
+	
+	public void makePayment(int paymentID);
 	
 	public void viewStudents();
 	

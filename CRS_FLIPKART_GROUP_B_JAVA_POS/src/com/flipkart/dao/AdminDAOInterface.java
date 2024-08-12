@@ -21,7 +21,7 @@ public interface AdminDAOInterface {
 	
 	public void approveStudentRegistration(int studentId);
 	
-    public void addCourse(String courseName, int courseID, Integer instructorID, int totalSeats, int availableSeats, boolean isAvailableThisSemester);
+    public void addCourse(String courseName, int courseID, int totalSeats, int availableSeats, boolean isAvailableThisSemester);
     
 	public boolean removeCourse(int courseID) ;
 	

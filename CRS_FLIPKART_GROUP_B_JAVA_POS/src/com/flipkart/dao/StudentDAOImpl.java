@@ -424,7 +424,7 @@ public ArrayList<Course> viewAvailableCourses() {
             // SQL query to get available courses
             String sql = "SELECT courseID, courseName, instructorID, totalSeats, availableSeats, isAvailableThisSemester "
                        + "FROM Course "
-                       + "WHERE isAvailableThisSemester = 1";
+                       + "WHERE isAvailableThisSemester = 1 AND availableSeats > 0";
             pstmt = conn.prepareStatement(sql);
 
             // Execute the query
@@ -659,56 +659,79 @@ public boolean dropCourse(int studentID, int courseID) {
 
 //done
 @Override
-public void makePayment(Payment payment) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
+public void addPaymentEntry(int paymentID, int studentID) {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
 
-        try {
-            // Establish connection to the database
+    try {
+        // Establish connection to the database
         conn = DButils.getConnection();
 
-            // Disable auto-commit for transaction management
-            conn.setAutoCommit(false);
+        // SQL query to insert payment details into the Payment table
+        String sql = "INSERT INTO Payment (paymentID, studentID, amount, payment_status) VALUES (?, ?, ?, ?)";
 
-            // SQL query to insert payment details into the Payment table
-            String sql = "INSERT INTO Payment (paymentID, studentID, amount, payment_status) VALUES (?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, payment.getPaymentID());
-            pstmt.setInt(2, payment.getStudentID());
-            pstmt.setDouble(3, payment.getAmount());
-            pstmt.setBoolean(4, payment.getPaymentStatus());
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, paymentID);
+        pstmt.setInt(2, studentID);
+        pstmt.setDouble(3, 50000.0);  // Default amount
+        pstmt.setBoolean(4, false);   // Default status (unpaid)
 
-            // Execute the insert operation
-            int rowsAffected = pstmt.executeUpdate();
+        // Execute the insert operation
+        int rowsAffected = pstmt.executeUpdate();
 
-            if (rowsAffected > 0) {
-                // Commit the transaction
-                conn.commit();
-                System.out.println("Payment made successfully.");
-            } else {
-                // Rollback in case of no rows affected
-                conn.rollback();
-                System.out.println("Failed to make payment.");
-            }
+        if (rowsAffected > 0) {
+            System.out.println("Payment entry added successfully.");
+        } else {
+            System.out.println("Failed to add payment entry.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    // Rollback the transaction in case of error
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
             e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
+}
+
+@Override
+public void makePayment(int paymentID) {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+
+    try {
+        // Establish connection to the database
+        conn = DButils.getConnection();
+
+        // SQL query to update the payment status to true
+        String sql = "UPDATE Payment SET payment_status = ? WHERE paymentID = ?";
+
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setBoolean(1, true);   // Update status to paid
+        pstmt.setInt(2, paymentID);
+
+        // Execute the update operation
+        int rowsAffected = pstmt.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Payment status updated successfully.");
+        } else {
+            System.out.println("Failed to update payment status.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
 
 
 

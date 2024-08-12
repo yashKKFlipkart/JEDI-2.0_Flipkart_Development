@@ -39,7 +39,6 @@ public class CRSProfessorMenu {
 				case 3:
 					addGrade(instructorID);
 					break;
-					
 				case 4:
 					viewEnrolledStudents(instructorID);
 					break;
@@ -73,21 +72,28 @@ public class CRSProfessorMenu {
 			in.nextLine();
 			System.out.println("Enter grade: A, B, C, D, F");
 			String grade = in.nextLine();
+			pdi.addGrade(studentID, courseID, grade);
 			
 		}
 		public void signUpForCourses(Integer instructorID) {
 			System.out.println("Viewing courses for selection");
+			
 			// Show Available Courses
 			ArrayList<Course> courses = sdi.viewAvailableCourses();
-			ArrayList<Course> coursesAvailableToSignUp = null;
+			ArrayList<Course> coursesAvailableToSignUp = new ArrayList<Course>();
 			// Choose courses to sign up which have no instructor right now
 			for(Course course: courses) {
-				if(course.getInstructorID() == null) {
+				if(course.getInstructorID() == 0 ) {
 					coursesAvailableToSignUp.add(course);
 					System.out.println("CourseID:"+course.getCourseID()+" CourseName:"+course.getCoursename()+" InstructorId:"+course.getInstructorID());
 				}
 			}
+			
 			// Sign up and add to list
+			if(coursesAvailableToSignUp.isEmpty()) {
+				System.out.println("No course available for signing up. All courses alloted instructors already!");
+				return;
+			}
 			System.out.println("Enter courseIDs to sign up for course, enter 0 to quit!");
 			while(true) {
 				System.out.print("Enter courseID:");
@@ -98,14 +104,12 @@ public class CRSProfessorMenu {
 					System.out.println("Thank You for signing up for courses!");
 					break;
 				}
-				
 				for(Course course: coursesAvailableToSignUp) {
 					if(course.getCourseID() == courseID) {
 						pdi.registerCourse(instructorID, course.getCoursename(), courseID);
 						break;
 					}
 				}
-				
 			}
 		}
 }
