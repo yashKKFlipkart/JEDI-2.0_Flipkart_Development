@@ -279,7 +279,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
         if (totalCourses > 0) {
             return totalGradePoints / totalCourses; // Average of grade points
         } else {
-            return null; // Return null if no courses found
+            return 0.0F; // Return null if no courses found
         }
     }
 
@@ -305,35 +305,71 @@ public class AdminDAOImpl implements AdminDAOInterface {
     @Override
     public ReportCard generateReportCard(int studentID) {
         HashMap<String, String> grades = new HashMap<>();
-
         String query = "SELECT courseID, grade FROM CourseGrade WHERE studentID = ?";
+        String query2 = "INSERT INTO ReportCard (studentID, cpi) VALUES (?,?) ON DUPLICATE KEY UPDATE cpi = ?";
+        
+        Connection con = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs = null;
 
-        try (Connection con = DButils.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-             
-            // Set the studentID parameter in the query
+        try {
+            con = DButils.getConnection();
+            con.setAutoCommit(false); // Begin transaction
+
+            stmt = con.prepareStatement(query);
             stmt.setInt(1, studentID);
-            ResultSet rs = stmt.executeQuery();
-            
+            rs = stmt.executeQuery();
+
             // Loop through the result set to get grades
             while (rs.next()) {
                 String courseID = rs.getString("courseID");
                 String grade = rs.getString("grade");
-                
                 grades.put(courseID, grade); // Add course ID and grade to the map
             }
-            
-            // Get the CPI using the existing calculateCpi method
+
+            // Calculate CPI
             Float cpi = calculateCpi(studentID);
+            if (cpi == null) {
+                throw new SQLException("CPI calculation failed.");
+            }
+
+            // Insert or update the ReportCard
+            stmt2 = con.prepareStatement(query2);
+            stmt2.setInt(1, studentID);
+            stmt2.setFloat(2, cpi);
+            stmt2.setFloat(3, cpi); // For ON DUPLICATE KEY UPDATE
+            stmt2.executeUpdate();
+
+            con.commit(); // Commit transaction
 
             // Create and return the ReportCard object
             ReportCard reportCard = new ReportCard(grades, studentID, cpi);
             return reportCard;
+
         } catch (SQLException e) {
+            if (con != null) {
+                try {
+                    con.rollback(); // Rollback transaction on error
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
             return null; // Return null in case of an error
+
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (stmt2 != null) stmt2.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
 
     @Override

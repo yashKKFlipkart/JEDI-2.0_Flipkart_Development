@@ -1,10 +1,13 @@
 package com.flipkart.client;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Payment;
+import com.flipkart.bean.ReportCard;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.flipkart.business.StudentOperations;
@@ -163,11 +166,28 @@ public class CRSStudentMenu {
 	}
 	
 	private void viewReportCard(int studentID) {
-		// TODO Auto-generated method stub
-		adi.generateReportCard(studentID);
-		sdi.viewReportCard(studentID);
-		
+	    // Generate the report card for the student
+	    ReportCard rc = adi.generateReportCard(studentID);
+	    
+	    if (rc == null) {
+	        System.out.println("No report card available for the student with ID: " + studentID);
+	        return;
+	    }
+
+	    // Retrieve the CPI and grades from the report card
+	    Float cpi = rc.getCpi();
+	    HashMap<String, String> grades = rc.getGrades();
+
+	    // Print the report card information
+	    System.out.println("Report Card for Student ID: " + studentID);
+	    System.out.println("CPI: " + cpi);
+
+	    System.out.println("Grades:");
+	    for (Map.Entry<String, String> entry : grades.entrySet()) {
+	        System.out.println("Course ID: " + entry.getKey() + ", Grade: " + entry.getValue());
+	    }
 	}
+
 	private void checkPaymentStatus(int studentID) {
 		// TODO Auto-generated method stub
 		boolean response = sdi.checkPaymentStatus(studentID);
