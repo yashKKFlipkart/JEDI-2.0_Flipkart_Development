@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2735419d-7f18-4bae-9298-f9ab9f030aed" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRS-JEDI-Flipkart-Dropwizard/target/classes/com/flipkart/app/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/CRS-JEDI-Flipkart-Dropwizard/target/classes/com/flipkart/app/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRS-JEDI-Flipkart-Dropwizard/target/classes/com/flipkart/rest/HelloControllerAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/CRS-JEDI-Flipkart-Dropwizard/target/classes/com/flipkart/rest/HelloControllerAPI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRS-JEDI-Flipkart-Dropwizard/target/test-classes/com/flipkart/app/AppTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/CRS-JEDI-Flipkart-Dropwizard/target/test-classes/com/flipkart/app/AppTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +60,7 @@
       <option name="presentableId" value="Default" />
       <updated>1723091019325</updated>
       <workItem from="1723091020428" duration="1032000" />
-      <workItem from="1723543552115" duration="356000" />
+      <workItem from="1723543552115" duration="834000" />
     </task>
     <servers />
   </component>
