@@ -3,6 +3,7 @@ com/flipkart/business/UserOperationsInterface.class
 com/flipkart/dao/ProfessorDAOInterface.class
 com/flipkart/business/AdminOperations.class
 com/flipkart/bean/PaymentNotification.class
+com/flipkart/bean/PasswordUpdateRequest.class
 com/flipkart/bean/RegisteredCourses.class
 com/flipkart/bean/User.class
 com/flipkart/bean/ReportCard.class
