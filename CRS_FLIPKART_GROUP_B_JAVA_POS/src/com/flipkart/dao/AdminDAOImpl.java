@@ -204,7 +204,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
             // Insert into User table
             userStmt.setInt(1, instructorID); // Using instructorID as userID
             userStmt.setString(2, name);
-            userStmt.setString(3, "professor"); // Role is set as "professor"
+            userStmt.setString(3, "P"); // Role is set as "professor"
             userStmt.setString(4, username);
             userStmt.setString(5, password);
             
