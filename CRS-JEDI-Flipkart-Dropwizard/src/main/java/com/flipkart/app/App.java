@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.flipkart.rest.AdminController;
 import com.flipkart.rest.HelloControllerAPI;
+import com.flipkart.rest.ProfessorController;
+import com.flipkart.rest.StudentController;
 import com.flipkart.rest.UserController;
 
 import javax.ws.rs.PathParam;
@@ -31,6 +33,8 @@ public class App extends Application<Configuration> {
         e.jersey().register(new HelloControllerAPI());
         e.jersey().register(new AdminController());
         e.jersey().register(new UserController());
+        e.jersey().register(new ProfessorController());
+        e.jersey().register(new StudentController());
     }
 
     public static void main(String[] args) throws Exception {

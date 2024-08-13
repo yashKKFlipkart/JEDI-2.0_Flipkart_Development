@@ -23,6 +23,7 @@ com/flipkart/exception/CourseNotFoundException.class
 com/flipkart/business/ProfessorOperationsInterface.class
 com/flipkart/rest/StudentController.class
 com/flipkart/exception/PaymentFailedException.class
+com/flipkart/bean/CourseAddRequest.class
 com/flipkart/rest/AdminController.class
 com/flipkart/business/StudentOperationsInterface.class
 com/flipkart/rest/HelloControllerAPI.class

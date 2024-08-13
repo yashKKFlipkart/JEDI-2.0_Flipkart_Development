@@ -14,6 +14,7 @@
 /Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/business/AdminOperations.java
 /Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/dao/StudentDAOInterface.java
 /Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/bean/Admin.java
+/Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/bean/CourseAddRequest.java
 /Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/rest/UserController.java
 /Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/exception/RegistrationNotApprovedException.java
 /Users/yash.kumarkandoi/Desktop/JEDI-2.0_Flipkart_Development/CRS-JEDI-Flipkart-Dropwizard/src/main/java/com/flipkart/business/StudentOperations.java

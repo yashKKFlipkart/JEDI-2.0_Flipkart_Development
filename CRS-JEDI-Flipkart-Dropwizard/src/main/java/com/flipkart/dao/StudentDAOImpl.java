@@ -202,10 +202,11 @@ public ReportCard viewReportCard(int studentID) {
 
 //DONE
 @Override
-public void viewRegisteredCourses(int studentID) {
+public List<Course> viewRegisteredCourses(int studentID) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        List<Course> courses = new ArrayList<Course>();
 
         try {
             // Establish connection to the database
@@ -228,7 +229,11 @@ public void viewRegisteredCourses(int studentID) {
                 int courseID = rs.getInt("courseID");
                 String courseName = rs.getString("courseName");
                 int instructorID = rs.getInt("instructorID");
-
+                Course c = new Course();
+                c.setCourseID(courseID);
+                c.setCoursename(courseName);
+                c.setInstructorID(instructorID);
+                courses.add(c);
                 System.out.println("Course ID: " + courseID + ", Course Name: " + courseName + ", Instructor ID: " + instructorID);
             }
         } catch (SQLException e) {
@@ -242,6 +247,7 @@ public void viewRegisteredCourses(int studentID) {
                 e.printStackTrace();
             }
         }
+        return courses;
     }
 
 
@@ -697,7 +703,7 @@ public void addPaymentEntry(int paymentID, int studentID) {
 }
 
 @Override
-public void makePayment(int paymentID) {
+public boolean makePayment(int paymentID) {
     Connection conn = null;
     PreparedStatement pstmt = null;
 
@@ -717,11 +723,14 @@ public void makePayment(int paymentID) {
 
         if (rowsAffected > 0) {
             System.out.println("Payment status updated successfully.");
+            return true;
         } else {
             System.out.println("Failed to update payment status.");
+            return false;
         }
     } catch (SQLException e) {
         e.printStackTrace();
+        return false;
     } finally {
         try {
             if (pstmt != null) pstmt.close();

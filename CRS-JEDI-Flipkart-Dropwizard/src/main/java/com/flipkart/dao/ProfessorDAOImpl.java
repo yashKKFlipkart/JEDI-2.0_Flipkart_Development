@@ -1,6 +1,8 @@
 package com.flipkart.dao;
 
+import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
 import com.flipkart.utils.DButils;
 
 import java.sql.Connection;
@@ -34,29 +36,37 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
     }
 
     @Override
-    public void ViewEnrolledStudents(Integer courseID) {
+    public ArrayList<Student> ViewEnrolledStudents(Integer courseID) {
         String query = "SELECT s.studentID, u.name FROM Student s "
                      + "JOIN RegisteredCourses rc ON s.studentID = rc.studentID "
                      + "JOIN Course c ON rc.courseID = c.courseID "
                      + "JOIN User u ON s.studentID = u.userID "
                      + "WHERE c.courseID = ?"; // Assuming semesterID is not used in the current schema
+        ArrayList<Student> students = new ArrayList<Student>();
         try (Connection con = DButils.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, courseID);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+            	Student s = new Student();
+            	s.setName(rs.getString("name"));
+            	s.setUserID(rs.getInt("studentID"));
+            	s.setStudentID(rs.getInt("studentID"));
+            	students.add(s);
                 System.out.println("Student ID: " + rs.getInt("studentID") + ", Name: " + rs.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return students;
     }
 
     @Override
     // view signed up courses by the instructor
-    public void viewSignedUpCourses(int instructorID) {
+    public ArrayList<Course> viewSignedUpCourses(int instructorID) {
     	String query = "SELECT courseID, courseName, totalSeats, availableSeats, isAvailableThisSemester "
                 + "FROM Course WHERE instructorID = ?";
+    	ArrayList<Course> courses = new ArrayList<Course>();
     	try (Connection con = DButils.getConnection();
                 PreparedStatement stmt = con.prepareStatement(query)) {
     		// Set the instructorID parameter in the query
@@ -72,7 +82,17 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
                 int totalSeats = rs.getInt("totalSeats");
                 int availableSeats = rs.getInt("availableSeats");
                 boolean isAvailableThisSemester = rs.getBoolean("isAvailableThisSemester");
-
+                
+                Course c = new Course();
+                c.setAvailableSeats(availableSeats);
+                c.setAvailableThisSemester(isAvailableThisSemester);
+                c.setCourseID(courseID);
+                c.setCoursename(courseName);
+                c.setTotalSeats(totalSeats);
+                c.setInstructorID(instructorID);
+                
+                courses.add(c);
+                
                 // Display the course information
                 System.out.println("Course ID: " + courseID);
                 System.out.println("Course Name: " + courseName);
@@ -81,10 +101,12 @@ public class ProfessorDAOImpl implements ProfessorDAOInterface {
                 System.out.println("Available This Semester: " + isAvailableThisSemester);
                 System.out.println("------------------------------------------------");
             }
+            
     		
     	}catch (SQLException e) {
             e.printStackTrace();
         }
+    	return courses;
     	
     }
 

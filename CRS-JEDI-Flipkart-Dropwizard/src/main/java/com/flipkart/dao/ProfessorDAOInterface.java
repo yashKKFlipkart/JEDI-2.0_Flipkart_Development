@@ -1,6 +1,11 @@
 package com.flipkart.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
 
 /**
  * Interface representing the data access object (DAO) for professor-related operations.
@@ -22,14 +27,14 @@ public interface ProfessorDAOInterface {
      * 
      * @param courseID Unique identifier of the course.
      */
-    public void ViewEnrolledStudents(Integer courseID);
+    public ArrayList<Student> ViewEnrolledStudents(Integer courseID);
 
     /**
      * Displays the courses that a professor has signed up for.
      * 
      * @param instructorID Unique identifier of the professor.
      */
-    public void viewSignedUpCourses(int instructorID);
+    public ArrayList<Course> viewSignedUpCourses(int instructorID);
 
     /**
      * Allows a professor to sign up for a course.

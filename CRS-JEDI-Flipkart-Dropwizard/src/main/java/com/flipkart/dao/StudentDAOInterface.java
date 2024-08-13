@@ -1,6 +1,7 @@
 package com.flipkart.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Payment;
@@ -47,7 +48,7 @@ public interface StudentDAOInterface {
      * 
      * @param studentID Unique identifier of the student.
      */
-    public void viewRegisteredCourses(int studentID);
+    public List<Course> viewRegisteredCourses(int studentID);
 
     /**
      * Finds a student by their username.
@@ -113,7 +114,7 @@ public interface StudentDAOInterface {
      * 
      * @param paymentID Unique identifier of the payment.
      */
-    public void makePayment(int paymentID);
+    public boolean makePayment(int paymentID);
 
     /**
      * Displays a list of all students.
