@@ -14,7 +14,7 @@ CREATE TABLE User(
 
 -- Admin table
 CREATE TABLE Admin (
-    adminID AUTO_INCREMENT INT,
+    adminID INT,
     doj DATETIME,
     PRIMARY KEY (adminID),
     FOREIGN KEY (adminID) REFERENCES User(userID) ON DELETE CASCADE
@@ -44,7 +44,7 @@ CREATE TABLE Course (
 );
 
 CREATE TABLE Student(
-	studentID AUTO_INCREMENT INT,
+	studentID INT,
     department VARCHAR(45),
     PRIMARY KEY (studentID),
     FOREIGN KEY (studentID) REFERENCES User(userID) ON DELETE CASCADE
