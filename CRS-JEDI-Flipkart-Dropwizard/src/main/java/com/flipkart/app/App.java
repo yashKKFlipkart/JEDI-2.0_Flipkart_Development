@@ -8,7 +8,9 @@ import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flipkart.rest.AdminController;
 import com.flipkart.rest.HelloControllerAPI;
+import com.flipkart.rest.UserController;
 
 import javax.ws.rs.PathParam;
 
@@ -27,6 +29,8 @@ public class App extends Application<Configuration> {
         System.out.println("HERE");
         // We need to register all the controllers here!
         e.jersey().register(new HelloControllerAPI());
+        e.jersey().register(new AdminController());
+        e.jersey().register(new UserController());
     }
 
     public static void main(String[] args) throws Exception {
