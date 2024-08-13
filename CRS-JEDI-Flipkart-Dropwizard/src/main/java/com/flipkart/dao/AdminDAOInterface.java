@@ -67,7 +67,7 @@ public interface AdminDAOInterface {
      * @param availableSeats Number of seats currently available.
      * @param isAvailableThisSemester Indicates if the course is available in the current semester.
      */
-    public void addCourse(String courseName, int courseID, int totalSeats, int availableSeats, boolean isAvailableThisSemester);
+    public boolean addCourse(String courseName, int courseID, int totalSeats, int availableSeats, boolean isAvailableThisSemester);
     
 	/**
 	 * Removes a course by its unique identifier.
@@ -87,7 +87,7 @@ public interface AdminDAOInterface {
 	 * @param department Department of the professor.
 	 * @param designation Designation of the professor.
 	 */
-	public void addProfessor(int instructorID, String name, String username, String password, String department, String designation);
+	public boolean addProfessor(int instructorID, String name, String username, String password, String department, String designation);
 	
 	/**
 	 * Removes a professor by their unique identifier.

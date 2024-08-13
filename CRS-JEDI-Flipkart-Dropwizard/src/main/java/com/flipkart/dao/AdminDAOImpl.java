@@ -130,7 +130,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
 
     @Override
-    public void addCourse(String courseName, int courseID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
+    public boolean addCourse(String courseName, int courseID, int totalSeats, int availableSeats, boolean isAvailableThisSemester) {
         String query = "INSERT INTO Course (courseID, courseName, instructorID, totalSeats, availableSeats, isAvailableThisSemester) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection con = DButils.getConnection();
@@ -138,20 +138,32 @@ public class AdminDAOImpl implements AdminDAOInterface {
             
             stmt.setInt(1, courseID);
             stmt.setString(2, courseName);
-            
             stmt.setNull(3, java.sql.Types.INTEGER); // Set NULL if not provided
-            
-
             stmt.setInt(4, totalSeats); // Set totalSeats
             stmt.setInt(5, availableSeats); // Set availableSeats
             stmt.setBoolean(6, isAvailableThisSemester); // Pass boolean directly
 
-            stmt.executeUpdate();
-            System.out.println("Course added successfully.");
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Course added successfully.");
+                return true;
+            } else {
+                System.out.println("No rows affected. Course not added.");
+                return false;
+            }
+            
         } catch (SQLException e) {
+            System.err.println("SQL Exception occurred while adding course.");
             e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred.");
+            e.printStackTrace();
+            return false;
         }
+       
     }
+
 
     @Override
     public boolean removeCourse(int courseID) {
@@ -193,7 +205,7 @@ public class AdminDAOImpl implements AdminDAOInterface {
 
 
     @Override
-    public void addProfessor(int instructorID, String name, String username, String password, String department, String designation) {
+    public boolean addProfessor(int instructorID, String name, String username, String password, String department, String designation) {
         String userQuery = "INSERT INTO User (userID, name, role, username, password) VALUES (?, ?, ?, ?, ?)";
         String professorQuery = "INSERT INTO Professor (instructorID, department, designation) VALUES (?, ?, ?)";
         
@@ -218,11 +230,14 @@ public class AdminDAOImpl implements AdminDAOInterface {
                 professorStmt.setString(3, designation);
                 professorStmt.executeUpdate();
                 System.out.println("Professor added successfully.");
+                return true;
             } else {
                 System.out.println("Failed to add user for professor.");
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
